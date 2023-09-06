@@ -1,6 +1,11 @@
 <?php
 
-class User extends Model {
+class User {
+
+    var $meta = array(
+        "table" => "user",
+        "primary_key" => "id"
+    );
 
     var $id;
     var $firstname;
