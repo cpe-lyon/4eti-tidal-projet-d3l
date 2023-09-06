@@ -1,7 +1,7 @@
 // public/index.php
 <?php
 
-include_once './app/controllers/HomeController.php';
+include_once './app/controllers/TemplateController.php';
 
 $route = $_GET['route'] ?? '';
 
