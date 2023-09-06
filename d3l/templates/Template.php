@@ -1,4 +1,3 @@
-// templates/Template.php
 <?php
 
 class Template 

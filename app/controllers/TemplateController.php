@@ -1,4 +1,3 @@
-// app/controllers/HomeController.php
 <?php
 
 require_once './d3l/templates/Template.php';

@@ -1,4 +1,3 @@
-// public/index.php
 <?php
 
 include_once './app/controllers/TemplateController.php';
