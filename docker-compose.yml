@@ -19,6 +19,17 @@ services:
       - "80:80"
     volumes:
       - ./:/var/www/html
+    entrypoint: ["sh", "-c", "a2enmod rewrite && exec apache2-foreground"]
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: 'no'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
 
 volumes:
   postgres_data:
