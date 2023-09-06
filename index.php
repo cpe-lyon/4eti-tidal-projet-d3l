@@ -1,7 +1,7 @@
 <?php
 
 include_once './app/controllers/TemplateController.php';
-include_once './src/d3l/routing/router.php';
+include_once './d3l/routing/router.php';
 
 $router = new Router($_GET['path']);
 $router->get('/', function(){echo 'welcome on the best framework'; });
