@@ -1,7 +1,7 @@
 // app/controllers/HomeController.php
 <?php
 
-require_once './src/d3l/templates/Template.php';
+require_once './d3l/templates/Template.php';
 
 class HomeController
 {
