@@ -2,7 +2,7 @@
 
 abstract class D3LController {
 
-    var $meta = array(
+    private $meta = array(
         "table" => "",
         "primary_key" => "id"
     );
