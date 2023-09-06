@@ -1,12 +1,14 @@
+// public/index.php
 <?php
 
-include_once 'd3l/routing/router.php';
+include_once './app/controllers/HomeController.php';
 
-$router = new Router($_SERVER['REQUEST_URI']);
-$router->get('/:id', function($id){ echo 'ton id:' . $id;});
-$router->get('/test/lol', function(){ echo 'lel';});
+$route = $_GET['route'] ?? '';
 
-$router->run();
-
-die();
-echo "string";
+switch ($route) {
+    case 'home':
+        $controller = new HomeController();
+        $controller->index();
+        break;
+    // Add more routes/controllers as needed
+}
