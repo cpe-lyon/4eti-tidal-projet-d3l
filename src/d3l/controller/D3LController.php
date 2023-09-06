@@ -4,7 +4,7 @@ abstract class D3LController {
 
     var $meta = array(
         "table" => "",
-        "primary_key" => ""
+        "primary_key" => "id"
     );
 
     protected function setTableMetaData($meta) {
@@ -20,7 +20,7 @@ abstract class D3LController {
     }
 
     protected function get($primary_key) {
-        $sql = "SELECT * FROM {$this->meta['table']} WHERE {$this->meta["primary_key"]} = \"{$primary_key}\"";
+        $sql = "SELECT * FROM {$this->meta['table']} WHERE {$this->meta["primary_key"]} = {$primary_key}";
 
         // Exécutez la requête SQL ici
 
@@ -49,7 +49,7 @@ abstract class D3LController {
         }
         $setClause = implode(", ", $setClause);
 
-        $sql = "UPDATE {$this->meta['table']} SET {$setClause} WHERE id = {$id}";
+        $sql = "UPDATE {$this->meta['table']} SET {$setClause} WHERE {$this->meta["primary_key"]} = {$id}";
 
         // Exécutez la requête SQL ici
 
@@ -57,7 +57,7 @@ abstract class D3LController {
     }
 
     protected function delete($id) {
-        $sql = "DELETE FROM {$this->meta['table']} WHERE id = {$id}";
+        $sql = "DELETE FROM {$this->meta['table']} WHERE {$this->meta["primary_key"]} = {$id}";
 
         // Exécutez la requête SQL ici
 
