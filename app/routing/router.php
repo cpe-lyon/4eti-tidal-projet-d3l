@@ -1,6 +1,7 @@
 <?php
 
 include_once 'route.php';
+include_once './app/controllers/TemplateController.php';
 
 class Router {
 

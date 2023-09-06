@@ -1,13 +1,10 @@
 <?php
 
-include_once 'route.php';
-
 class Route {
 
     private $path;
     private $callable;
     private $matches = [];
-    private $params = [];
 
     public function __construct($path, $callable){
         $this->path = trim($path, '/');
