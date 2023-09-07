@@ -1,7 +1,7 @@
 <?php
 
-include_once './app/controllers/TemplateController.php';
-include_once './app/routing/router.php';
+include_once './app/controllers/HomeController.php';
+include_once './d3l/routing/router.php';
 
 if(!isset($_GET['path'])){
     $_GET['path'] = '/';

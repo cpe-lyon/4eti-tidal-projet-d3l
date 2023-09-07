@@ -1,6 +1,6 @@
 <?php
 
-include_once("src/d3l/database/D3LDatabaseTable.php");
+include_once("./d3l/database/D3LDatabaseTable.php");
 
 class Country extends D3LDatabaseTable {
 
