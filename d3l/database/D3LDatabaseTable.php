@@ -2,7 +2,7 @@
 
 abstract class D3LDatabaseTable {
 
-    var $table = "";
+    var $name = "";
     var $columns = array();
     
     function isTableValid() {
@@ -10,7 +10,7 @@ abstract class D3LDatabaseTable {
     }
 
     private function hasTableName() {
-        return $this->table != "";
+        return $this->name != "";
     }
 
     private function hasOnlyOnePrimaryKey() {

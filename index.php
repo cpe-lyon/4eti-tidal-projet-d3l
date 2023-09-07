@@ -3,6 +3,7 @@
 include_once './app/controllers/HomeController.php';
 include_once './d3l/routing/router.php';
 
+
 if(!isset($_GET['path'])){
     $_GET['path'] = '/';
 }
@@ -17,3 +18,10 @@ $router->get('/template', function(){
 });
 
 $router->run();
+
+include_once './d3l/database/DatabaseGeneration.php';
+include_once './app/database/tables/User.php';
+
+$databaseGeneration = new DatabaseGeneration();
+
+$databaseGeneration->generateDatabaseScriptFile();

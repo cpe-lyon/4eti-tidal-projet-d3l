@@ -2,11 +2,23 @@
 
 class DatabaseGeneration {
 
-    function generateTableCreationScript(D3LDatabaseTable $model) {
-        $tableName = $model->table;
-        $columns = $model->columns;
+    function generateDatabaseScriptFile() {
+        $tables = $this->loadTables();
+        $tableCreationScript = $this->generateDatabaseCreationScript($tables);
+
+        $outputFile = "database_script.sql";
+        $filePath = "app/database/" . $outputFile;
+
+        // Write the SQL script to the output file
+        file_put_contents($filePath, $tableCreationScript);
+        chmod($filePath, 0777);
+    }
+
+    private function generateTableCreationScript(D3LDatabaseTable $table) {
+        $tableName = $table->name;
+        $columns = $table->columns;
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$tableName} (";
+        $sql = "\nCREATE TABLE IF NOT EXISTS {$tableName} (\n";
 
         foreach ($columns as $column) {
             $columnName = $column["name"];
@@ -16,7 +28,7 @@ class DatabaseGeneration {
             $isAutoIncrement = isset($column["auto_increment"]) ? $column["auto_increment"] : false;
             $isNullable = isset($column["nullable"]) ? $column["nullable"] : true;
 
-            $sql .= "{$columnName} {$columnType}";
+            $sql .= "\t{$columnName} {$columnType}";
 
             if ($columnLength !== null) {
                 $sql .= "({$columnLength})";
@@ -33,22 +45,45 @@ class DatabaseGeneration {
                 $sql .= " NOT NULL";
             }
 
-            $sql .= ",";
+            $sql .= ",\n";
         }
 
-        // Remove the trailing comma
-        $sql = rtrim($sql, ",");
+        // Retirez la virgule finale
+        $sql = rtrim($sql, ",\n");
 
-        $sql .= ");";
+        $sql .= "\n);";
 
         return $sql;
     }
 
-    function generateDatabaseScript(D3LDatabaseTable $model, $outputFile = "database_script.sql") {
-        $tableCreationScript = $this->generateTableCreationScript($model);
-
-        // Write the SQL script to the output file
-        file_put_contents($outputFile, $tableCreationScript);
+    private function generateTableDropScript(D3LDatabaseTable $table) {
+        return "\nDROP TABLE IF EXISTS {$table->name};";
     }
 
+    private function generateDatabaseCreationScript(array $tables) {
+        $sql = "CREATE DATABASE IF NOT EXISTS D3LDatabase;\n";
+
+        foreach ($tables as $table) {
+            $sql .= $this->generateTableDropScript($table) . "\n";
+            $sql .= $this->generateTableCreationScript($table) . "\n";
+        }
+
+        return $sql;
+    }
+
+    private function loadTables() {
+        $tables = array();
+
+        $files = scandir("app/database/tables");
+
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                include_once("app/database/tables/" . $file);
+                $className = str_replace(".php", "", $file);
+                $tables[] = new $className();
+            }
+        }
+
+        return $tables;
+    }
 }

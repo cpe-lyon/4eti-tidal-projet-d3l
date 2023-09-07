@@ -4,7 +4,7 @@ include_once("./d3l/database/D3LDatabaseTable.php");
 
 class User extends D3LDatabaseTable {
 
-    var $table = "user";
+    var $name = "user";
 
     var $columns = array(
         array(
