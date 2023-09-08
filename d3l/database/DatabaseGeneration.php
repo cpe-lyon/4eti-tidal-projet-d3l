@@ -11,6 +11,8 @@ class DatabaseGeneration {
 
         // Write the SQL script to the output file
         file_put_contents($filePath, $tableCreationScript);
+
+        
     }
 
     private function generateTableCreationScript(D3LDatabaseTable $table) {

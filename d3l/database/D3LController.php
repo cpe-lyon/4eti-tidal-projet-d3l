@@ -10,21 +10,28 @@ abstract class D3LController {
 
     function __construct() {
         $this->db = new DatabaseContext($this->dbProfile);
+        
+        //Turn off emulated prepared statements.
+        $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->db->connection->query('SET NAMES gbk');
     }
 
     protected function getAll() {
-        $rawSql = "SELECT * FROM {$this->tableName}";
-        $sql = $this->db->connection->prepare($rawSql);
+        //Query
+        $stmt = $this->db->connection->prepare('SELECT * FROM :tablename');
+        $stmt->execute(['tablename' => $this->tableName]);
 
-        return $sql;
+        //Return data
+        return $stmt->fetchAll();
     }
 
     protected function get($primaryKeyValue) {
-        $sql = "SELECT * FROM {$this->tableName} WHERE {$this->primaryKey} = {$primaryKeyValue}";
+        //Query
+        $stmt = $this->db->connection->prepare('SELECT * FROM :tableName WHERE :primaryKey = :primaryKeyValue');
+        $stmt->execute(['tablename' => $this->tableName, 'primaryKey' => $this->primaryKey, 'primaryKeyValue' => $primaryKeyValue]);
 
-        // Exécutez la requête SQL ici
-
-        return $sql;
+        //Return data
+        return $stmt->fetchAll();
     }
 
     protected function insert($data) {
