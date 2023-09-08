@@ -28,9 +28,20 @@ class DatabaseColumn {
         return $query;
     }
 
-    static function generateForExistingTable(array $column): string {
-        $query = "ADD COLUMN ";
+    static function generateWithAlterTable(string $table, array $column): string {
+        $query = "ALTER TABLE \"{$table}\" ADD COLUMN";
         $query .= DatabaseColumn::generate($column);
         return $query;
+    }
+
+    static function compareColumns($currentColumn, $newColumn): bool {
+        $currentParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $currentColumn);
+        $newParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $newColumn);
+
+        return $currentParams['name'] == $newParams['name'] &&
+            $currentParams['type'] == $newParams['type'] &&
+            $currentParams['length'] == $newParams['length'] &&
+            $currentParams['primary_key'] == $newParams['primary_key'] &&
+            $currentParams['nullable'] == $newParams['nullable'];
     }
 }

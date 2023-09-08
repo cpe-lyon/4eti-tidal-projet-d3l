@@ -43,10 +43,10 @@ class DatabaseInit {
         $sqlFileName = $fileId . "-" . self::INIT_FILE_BASE . ".sql";
         $logFileName = $fileId . "-" . self::INIT_FILE_BASE . ".json";
 
-        echo "Saving init script {$fileId}\n";
+        echo "Saving init script\n";
         DatabaseFiles::generate($sqlFileName, $script);
 
-        echo "Saving init log {$fileId}\n";
+        echo "Saving init log\n";
         DatabaseMigrationLogs::save($logFileName, $this->tables);
     }
 }

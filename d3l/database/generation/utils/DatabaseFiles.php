@@ -2,11 +2,11 @@
 
 class DatabaseFiles {
 
-    const MIGRATION_FOLDER_PATH = "app/database/migrations/";
+    const MIGRATION_DIR = "app/database/migrations/";
 
     static function clean() {
         echo "Cleaning migrations\n";
-        $files = glob(self::MIGRATION_FOLDER_PATH . '*');
+        $files = glob(self::MIGRATION_DIR . '*');
         foreach ($files as $file) {
             if (is_file($file)) {
                 unlink($file);
@@ -15,13 +15,13 @@ class DatabaseFiles {
     }
 
     static function generate(string $name, string $query) {
-        $path = self::MIGRATION_FOLDER_PATH . $name;
+        $path = self::MIGRATION_DIR . $name;
 
         file_put_contents($path, $query);
     }
 
     static function load(string $name): string {
-        $path = self::MIGRATION_FOLDER_PATH . $name;
+        $path = self::MIGRATION_DIR . $name;
 
         return file_get_contents($path);
     }
@@ -47,7 +47,7 @@ class DatabaseFiles {
     }
 
     static function getNextMigrationId(): int {
-        $files = scandir(self::MIGRATION_FOLDER_PATH);
+        $files = scandir(self::MIGRATION_DIR);
 
         $maxId = 0;
 
@@ -62,7 +62,7 @@ class DatabaseFiles {
     }
 
     static function initFileExists(): bool {
-        $files = scandir(self::MIGRATION_FOLDER_PATH);
+        $files = scandir(self::MIGRATION_DIR);
 
         foreach ($files as $file) {
             if ($file != "." && $file != "..") {
