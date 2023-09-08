@@ -1,5 +1,7 @@
 <?php
 
+namespace App\UserController;
+
 include_once("src/d3l/controller/D3LController.php");
 include_once("src/models/User.php");
 

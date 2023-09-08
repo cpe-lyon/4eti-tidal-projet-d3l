@@ -1,5 +1,7 @@
 <?php
 
+namespace D3l\Template;
+
 class Template 
 {
     protected $data = [];
