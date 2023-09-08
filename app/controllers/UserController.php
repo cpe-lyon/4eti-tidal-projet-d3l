@@ -1,7 +1,9 @@
 <?php
 
-include_once "d3l/database/models/D3LController.php";
-include_once "app/database/tables/User.php";
+namespace App\UserController;
+
+require_once "d3l/database/models/D3LController.php";
+require_once "app/database/tables/User.php";
 
 class UserController extends D3LController {
 

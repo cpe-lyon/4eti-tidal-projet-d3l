@@ -1,20 +1,15 @@
 <?php
 
-include_once './app/services/TemplateService.php';
-include_once './d3l/routing/router.php';
+require_once 'app/services/TemplateService.php';
+require_once 'd3l/routing/Router.php';
+
+use AttributesRouter\Router;
+use App\Service\TemplateService;
 
 
-if(!isset($_GET['path'])){
-    $_GET['path'] = '/';
+$router = new Router([TemplateService::class]);
+
+if ($match = $router->match()) {
+    $controller = new $match['class']();
+    $controller->{$match['method']}($match['params']);
 }
-$router = new Router($_GET['path']);
-$router->get('/', function(){echo 'welcome on the best framework'; });
-$router->get('/id/:id', function($id){ echo 'ton id:' . $id;});
-$router->get('/test/lol', function(){ echo 'lel';});
-
-$router->get('/template', function(){
-    $template = new TemplateService();
-    $template->index();
-});
-
-$router->run();
