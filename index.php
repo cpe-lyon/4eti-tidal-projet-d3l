@@ -1,6 +1,6 @@
 <?php
 
-include_once './app/controllers/HomeController.php';
+include_once './app/services/TemplateService.php';
 include_once './d3l/routing/router.php';
 
 
@@ -13,7 +13,7 @@ $router->get('/id/:id', function($id){ echo 'ton id:' . $id;});
 $router->get('/test/lol', function(){ echo 'lel';});
 
 $router->get('/template', function(){
-    $template = new HomeController();
+    $template = new TemplateService();
     $template->index();
 });
 

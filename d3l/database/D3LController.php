@@ -4,20 +4,33 @@ abstract class D3LController {
 
     var $table;
 
-    protected function getAll() {
-        $sql = "SELECT * FROM {$this->table->name}";
+    var $dbProfile = "";
+    var $db;
 
-        // Exécutez la requête SQL ici
-
-        return $sql;
+    function __construct() {
+        $this->db = new DatabaseContext($this->dbProfile);
+        
+        //Turn off emulated prepared statements.
+        $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->db->connection->query('SET NAMES gbk');
     }
 
-    /*protected function get($primaryKeyValue) {
-        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = {$primaryKeyValue}";
+    protected function getAll() {
+        //Query
+        $stmt = $this->db->connection->prepare('SELECT * FROM :tablename');
+        $stmt->execute(['tablename' => $this->tableName]);
 
-        // Exécutez la requête SQL ici
+        //Return data
+        return $stmt->fetchAll();
+    }
 
-        return $sql;
+    protected function get($primaryKeyValue) {
+        //Query
+        $stmt = $this->db->connection->prepare('SELECT * FROM :tableName WHERE :primaryKey = :primaryKeyValue');
+        $stmt->execute(['tablename' => $this->tableName, 'primaryKey' => $this->primaryKey, 'primaryKeyValue' => $primaryKeyValue]);
+
+        //Return data
+        return $stmt->fetchAll();
     }
 
     protected function insert($data) {
@@ -63,7 +76,7 @@ abstract class D3LController {
         // Exécutez la requête SQL ici
 
         return $sql;
-    }*/
+    }
 
     protected function sendRawQuery($query) {
         return $query;

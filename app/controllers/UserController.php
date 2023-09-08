@@ -7,6 +7,8 @@ class UserController extends D3LController {
 
     var $tableName;
 
+    var $dbProfile = "profile";
+
     function __construct() {
         $this->table = new User();
     }

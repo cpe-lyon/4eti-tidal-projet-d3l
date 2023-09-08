@@ -1,3 +1,4 @@
+#!/bin/php
 <?php
 
 include_once './d3l/database/DatabaseGeneration.php';
