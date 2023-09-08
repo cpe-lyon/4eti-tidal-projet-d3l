@@ -14,10 +14,8 @@ class DatabaseGeneration {
     }
 
     private function generateTableCreationScript(D3LDatabaseTable $table) {
-        $tableName = $table->name;
         $columns = $table->columns;
-        
-        $sql = "\nCREATE TABLE IF NOT EXISTS {$tableName} (\n";
+        $sql = "";
 
         foreach ($columns as $column) {
             $columnName = $column["name"];
