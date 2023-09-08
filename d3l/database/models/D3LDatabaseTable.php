@@ -22,7 +22,6 @@ abstract class D3LDatabaseTable {
     }
     
     function isTableValid(): bool {
-        $this->addPrimaryKeyIfNotExists();
         return $this->hasTableName() & $this->hasAtLeastTwoColumns();
     }
 
@@ -35,7 +34,7 @@ abstract class D3LDatabaseTable {
         return count($primaryKeys) > 0;
     }
 
-    private function addPrimaryKeyIfNotExists() {
+    function addPrimaryKeyIfNotExists() {
         if ($this->hasAtLeastOnePrimaryKey()) return;
 
         $idColumn = array(
