@@ -13,7 +13,7 @@ class Template
     {
         ob_start();
         extract($this->data);
-        include($template);
+        include('./app/templates/' . $template);
         $content = ob_get_contents();
         ob_end_clean();
         return $content;
