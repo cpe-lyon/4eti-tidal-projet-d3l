@@ -1,6 +1,6 @@
 <?php
 
-include_once "d3l/database/generation/DatabaseColumn.php";
+include_once "d3l/database/generation/utils/DatabaseColumn.php";
 
 class DatabaseTable {
 

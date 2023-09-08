@@ -1,7 +1,8 @@
 <?php
 
-include_once "d3l/database/generation/DatabaseFiles.php";
-include_once "d3l/database/generation/DatabaseMigrationLogs.php";
+include_once "d3l/database/generation/DatabaseInit.php";
+include_once "d3l/database/generation/utils/DatabaseFiles.php";
+include_once "d3l/database/generation/utils/DatabaseMigrationLogs.php";
 
 class DatabaseMigration {
 
@@ -14,6 +15,13 @@ class DatabaseMigration {
 
     function generate() {
         $script = "";
+
+        if (!DatabaseFiles::initFileExists()) {
+            echo "No init script found, generating init script\n";
+            $dbInit = new DatabaseInit();
+            $dbInit->generate();
+            return;
+        }
 
         echo "Generating migration script\n";
 

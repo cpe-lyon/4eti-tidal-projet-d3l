@@ -60,4 +60,19 @@ class DatabaseFiles {
 
         return $maxId + 1;
     }
+
+    static function initFileExists(): bool {
+        $files = scandir(self::MIGRATION_FOLDER_PATH);
+
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                $id = intval(explode("-", $file)[0]);
+                if ($id == 1) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

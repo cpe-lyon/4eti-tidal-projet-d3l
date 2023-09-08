@@ -1,6 +1,6 @@
 <?php
 
-include_once "d3l/database/generation/DatabaseFiles.php";
+include_once "d3l/database/generation/utils/DatabaseFiles.php";
 
 class DatabaseMigrationLogs {
 

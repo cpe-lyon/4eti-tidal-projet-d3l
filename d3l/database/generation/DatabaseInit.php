@@ -1,8 +1,8 @@
 <?php
 
-include_once "d3l/database/generation/DatabaseFiles.php";
-include_once "d3l/database/generation/DatabaseTable.php";
-include_once "d3l/database/generation/DatabaseMigrationLogs.php";
+include_once "d3l/database/generation/utils/DatabaseFiles.php";
+include_once "d3l/database/generation/utils/DatabaseTable.php";
+include_once "d3l/database/generation/utils/DatabaseMigrationLogs.php";
 
 class DatabaseInit {
 
