@@ -22,4 +22,14 @@ class DatabaseTable {
         $query = "\nDROP TABLE IF EXISTS \"{$name}\";\n";
         return $query;
     }
+
+    static function getTableByName(array $tables, string $name) {
+        foreach ($tables as $table) {
+            if ($table->name == $name) {
+                return $table;
+            }
+        }
+
+        return null;
+    }
 }
