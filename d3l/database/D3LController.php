@@ -5,10 +5,16 @@ abstract class D3LController {
     var $tableName = "";
     var $primaryKey = "";
 
-    protected function getAll() {
-        $sql = "SELECT * FROM {$this->tableName}";
+    var $dbProfile = "";
+    var $db;
 
-        // Exécutez la requête SQL ici
+    function __construct() {
+        $this->db = new DatabaseContext($this->dbProfile);
+    }
+
+    protected function getAll() {
+        $rawSql = "SELECT * FROM {$this->tableName}";
+        $sql = $this->db->connection->prepare($rawSql);
 
         return $sql;
     }
