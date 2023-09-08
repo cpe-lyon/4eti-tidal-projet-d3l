@@ -3,12 +3,10 @@
 abstract class D3LController {
 
     var $table;
-
-    var $dbProfile = "";
     var $db;
 
-    function __construct() {
-        $this->db = new DatabaseContext($this->dbProfile);
+    function __construct(string $profile) {
+        $this->db = new DatabaseContext($profile);
         
         //Turn off emulated prepared statements.
         $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);

@@ -1,7 +1,7 @@
 <?php
 
-include_once("./d3l/database/D3LDatabaseTable.php");
-include_once("./d3l/database/D3LDatabaseColumn.php");
+include_once "d3l/database/models/D3LDatabaseTable.php";
+include_once "d3l/database/models/D3LDatabaseColumn.php";
 
 class Country extends D3LDatabaseTable {
 

@@ -1,16 +1,13 @@
 <?php
 
+include_once "d3l/database/generation/DatabaseScriptFile.php";
+
 class DatabaseCreation {
 
-    function generateDatabaseScriptFile() {
+    function generateDatabaseScriptFile(): string {
         $tables = $this->loadTables();
-        $tableCreationScript = $this->generateDatabaseCreationScript($tables);
 
-        $outputFile = "1-init.sql";
-        $filePath = "app/database/migrations/" . $outputFile;
-
-        // Write the SQL script to the output file
-        file_put_contents($filePath, $tableCreationScript);
+        return $this->generateDatabaseCreationScript($tables);
     }
 
     private function generateTableCreationScript(D3LDatabaseTable $table): string {
@@ -66,9 +63,12 @@ class DatabaseCreation {
             if (!$table->isTableValid()) {
                 throw new Exception("Table {$table->name} is not valid");
             }
+
             $sql .= $this->generateTableDropScript($table) . "\n";
             $sql .= $this->generateTableCreationScript($table) . "\n";
         }
+
+        DatabaseScriptFile::saveTableLogs("1-init.json", $tables);
 
         return $sql;
     }
