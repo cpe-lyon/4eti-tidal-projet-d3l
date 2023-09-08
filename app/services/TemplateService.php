@@ -2,7 +2,7 @@
 
 require_once './d3l/templates/Template.php';
 
-class HomeController
+class TemplateService
 {
     public function index()
     {
