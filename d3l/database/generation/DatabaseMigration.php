@@ -14,7 +14,6 @@ class DatabaseMigration {
     }
 
     function generate() {
-        $script = "";
 
         if (!DatabaseFiles::initFileExists()) {
             echo "No init script found, generating init script\n";
@@ -23,10 +22,21 @@ class DatabaseMigration {
             return;
         }
 
+        $script = $this->generateScript();
+        $this->saveFiles($script);
+    }
+
+    private function generateScript(): string {
+        $script = "";
+
         echo "Generating migration script\n";
 
-        // generate migration script
+        //TODO : generate migration script
 
+        return $script;
+    }
+
+    private function saveFiles(string $script) {
         $fileId = DatabaseFiles::getNextMigrationId();
         $sqlFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".sql";
         $logFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".json";

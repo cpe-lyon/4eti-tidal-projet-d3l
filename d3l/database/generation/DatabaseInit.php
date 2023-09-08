@@ -14,6 +14,11 @@ class DatabaseInit {
     }
 
     function generate() {
+        $script = $this->generateScript();
+        $this->saveFiles($script);
+    }
+
+    private function generateScript(): string {
         $script = "";
 
         echo "Generating init script\n";
@@ -30,6 +35,10 @@ class DatabaseInit {
             echo "-> Created table {$table->name}\n";
         }
 
+        return $script;
+    }
+
+    private function saveFiles(string $script) {
         $fileId = DatabaseFiles::getNextMigrationId();
         $sqlFileName = $fileId . "-" . self::INIT_FILE_BASE . ".sql";
         $logFileName = $fileId . "-" . self::INIT_FILE_BASE . ".json";
