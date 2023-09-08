@@ -2,26 +2,24 @@
 
 class DatabaseColumn {
 
+    const COLUMN_PARAMS = ["name", "type", "length", "primary_key", "nullable"];
+
     static function generate(array $column): string {
         $query = "";
 
-        $columnName = $column["name"];
-        $columnType = $column["type"];
-        $columnLength = isset($column["length"]) ? $column["length"] : null;
-        $isPrimaryKey = isset($column["primary_key"]) ? $column["primary_key"] : false;
-        $isNullable = isset($column["nullable"]) ? $column["nullable"] : true;
+        $params = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $column);
 
-        $query .= "\t{$columnName} {$columnType}";
+        $query .= "\t{$params['name']} {$params['type']}";
 
-        if ($columnLength !== null) {
-            $query .= "({$columnLength})";
+        if ($params['length'] !== null) {
+            $query .= "({$params['length']})";
         }
 
-        if ($isPrimaryKey) {
+        if ($params['primary_key']) {
             $query .= " PRIMARY KEY";
         }
 
-        if (!$isNullable) {
+        if (!$params['nullable']) {
             $query .= " NOT NULL";
         }
 

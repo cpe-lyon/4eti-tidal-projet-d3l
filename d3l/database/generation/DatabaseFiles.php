@@ -44,4 +44,19 @@ class DatabaseFiles {
 
         return $tables;
     }
+
+    static function getNextMigrationId(): int {
+        $files = scandir(self::MIGRATION_FOLDER_PATH);
+
+        $maxId = 0;
+
+        foreach ($files as $file) {
+            if ($file != "." && $file != "..") {
+                $id = intval(explode("-", $file)[0]);
+                $maxId = max($maxId, $id);
+            }
+        }
+
+        return $maxId + 1;
+    }
 }

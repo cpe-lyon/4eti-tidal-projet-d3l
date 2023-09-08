@@ -22,7 +22,10 @@ abstract class D3LDatabaseTable {
     }
     
     function isTableValid(): bool {
-        return $this->hasTableName() & $this->hasAtLeastTwoColumns();
+        return $this->hasTableName() &
+            $this->hasAtLeastTwoColumns() &
+            $this->isColumnsValid() &
+            $this->hasAtLeastOnePrimaryKey();
     }
 
     private function hasTableName(): bool {
@@ -49,5 +52,15 @@ abstract class D3LDatabaseTable {
 
     private function hasAtLeastTwoColumns(): bool {
         return count($this->columns) >= 2;
+    }
+
+    private function isColumnsValid(): bool {
+        return array_reduce($this->columns, function($carry, $column) {
+            return $carry && $this->isColumnValid($column);
+        }, true);
+    }
+
+    private function isColumnValid($column): bool {
+        return isset($column["name"]) && isset($column["type"]);
     }
 }
