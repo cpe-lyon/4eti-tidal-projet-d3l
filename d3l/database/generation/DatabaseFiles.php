@@ -5,6 +5,7 @@ class DatabaseFiles {
     const MIGRATION_FOLDER_PATH = "app/database/migrations/";
 
     static function clean() {
+        echo "Cleaning migrations\n";
         $files = glob(self::MIGRATION_FOLDER_PATH . '*');
         foreach ($files as $file) {
             if (is_file($file)) {

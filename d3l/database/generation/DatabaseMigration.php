@@ -15,13 +15,18 @@ class DatabaseMigration {
     function generate() {
         $script = "";
 
+        echo "Generating migration script\n";
+
         // generate migration script
 
         $fileId = DatabaseFiles::getNextMigrationId();
         $sqlFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".sql";
         $logFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".json";
 
+        echo "Saving migration script {$fileId}\n";
         DatabaseFiles::generate($sqlFileName, $script);
+
+        echo "Saving migration log {$fileId}\n";
         DatabaseMigrationLogs::save($logFileName, $this->tables);
     }
 }
