@@ -1,7 +1,7 @@
 {
     "profile": {
         "database": "mydatabase",
-        "host": "localhost",
+        "host": "172.22.0.3:5432",
         "user": "myuser",
         "password": "mypassword"
     }

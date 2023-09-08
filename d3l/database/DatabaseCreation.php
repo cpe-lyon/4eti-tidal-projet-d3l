@@ -1,23 +1,23 @@
 <?php
 
-class DatabaseGeneration {
+class DatabaseCreation {
 
     function generateDatabaseScriptFile() {
         $tables = $this->loadTables();
         $tableCreationScript = $this->generateDatabaseCreationScript($tables);
 
-        $outputFile = "database_script.sql";
-        $filePath = "app/database/" . $outputFile;
+        $outputFile = "1-init.sql";
+        $filePath = "app/database/migrations/" . $outputFile;
 
         // Write the SQL script to the output file
         file_put_contents($filePath, $tableCreationScript);
     }
 
-    private function generateTableCreationScript(D3LDatabaseTable $table) {
+    private function generateTableCreationScript(D3LDatabaseTable $table): string {
         $tableName = $table->name;
         $columns = $table->columns;
         
-        $sql = "\nCREATE TABLE IF NOT EXISTS {$tableName} (\n";
+        $sql = "\nCREATE TABLE IF NOT EXISTS \"{$tableName}\" (\n";
 
         foreach ($columns as $column) {
             $columnName = $column["name"];
@@ -55,12 +55,12 @@ class DatabaseGeneration {
         return $sql;
     }
 
-    private function generateTableDropScript(D3LDatabaseTable $table) {
-        return "\nDROP TABLE IF EXISTS {$table->name};";
+    private function generateTableDropScript(D3LDatabaseTable $table): string {
+        return "\nDROP TABLE IF EXISTS \"{$table->name}\";";
     }
 
-    private function generateDatabaseCreationScript(array $tables) {
-        $sql = "CREATE DATABASE IF NOT EXISTS D3LDatabase;\n";
+    private function generateDatabaseCreationScript(array $tables): string {
+        $sql = "";
 
         foreach ($tables as $table) {
             if (!$table->isTableValid()) {
@@ -73,7 +73,7 @@ class DatabaseGeneration {
         return $sql;
     }
 
-    private function loadTables() {
+    private function loadTables(): array {
         $tables = array();
 
         $files = scandir("app/database/tables");

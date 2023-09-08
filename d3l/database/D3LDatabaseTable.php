@@ -40,10 +40,9 @@ abstract class D3LDatabaseTable {
 
         $idColumn = array(
             "name" => "id",
-            "type" => "int",
-            "length" => 11,
+            "type" => "serial",
             "primary_key" => true,
-            "auto_increment" => true
+            "nullable" => false,
         );
 
         array_unshift($this->columns, $idColumn);
