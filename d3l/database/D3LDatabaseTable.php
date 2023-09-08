@@ -6,19 +6,19 @@ abstract class D3LDatabaseTable {
     var $columns = array();
     
     function isTableValid() {
-        return $this->hasTableName() & $this->hasOnlyOnePrimaryKey() & $this->hasAtLeastTwoColumns();
+        return $this->hasTableName() & $this->hasAtLeastOnePrimaryKey() & $this->hasAtLeastTwoColumns();
     }
 
     private function hasTableName() {
         return $this->name != "";
     }
 
-    private function hasOnlyOnePrimaryKey() {
+    private function hasAtLeastOnePrimaryKey() {
         // check if columns has only one primary key
         $primaryKeys = array_filter($this->columns, function($column) {
             return isset($column["primary_key"]) && $column["primary_key"];
         });
-        return count($primaryKeys) != 1;
+        return count($primaryKeys) > 0;
     }
 
     private function hasAtLeastTwoColumns() {

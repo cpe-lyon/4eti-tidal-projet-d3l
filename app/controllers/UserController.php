@@ -1,15 +1,17 @@
 <?php
 
-include_once("src/d3l/controller/D3LController.php");
-include_once("src/models/User.php");
+include_once("d3l/controller/D3LController.php");
+include_once("app/database/table/User.php");
 
 class UserController extends D3LController {
 
-    var $user;
+    var $tableName;
+    var $primaryKey;
 
     function __construct() {
-        $this->user = new User();
-        parent::setTableMetaData($this->user->meta);
+        $user = new User();
+        $this->tableName = $user->name;
+        $this->primaryKey = $user->getPrimaryKeys();
     }
 
     function getUsers() {

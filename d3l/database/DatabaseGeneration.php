@@ -64,6 +64,9 @@ class DatabaseGeneration {
         $sql = "CREATE DATABASE IF NOT EXISTS D3LDatabase;\n";
 
         foreach ($tables as $table) {
+            if (!$table->isTableValid()) {
+                throw new Exception("Table {$table->name} is not valid");
+            }
             $sql .= $this->generateTableDropScript($table) . "\n";
             $sql .= $this->generateTableCreationScript($table) . "\n";
         }
