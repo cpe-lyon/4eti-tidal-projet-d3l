@@ -1,47 +1,25 @@
 <?php
 
 include_once("./d3l/database/D3LDatabaseTable.php");
+include_once("./d3l/database/D3LDatabaseColumn.php");
 
 class User extends D3LDatabaseTable {
 
     var $name = "user";
 
-    var $columns = array(
-        array(
-            "name" => "id",
-            "type" => "int",
-            "length" => 11,
-            "primary_key" => true,
-            "auto_increment" => true
-        ),
-        array(
-            "name" => "firstname",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "lastname",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "email",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "password",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "comment",
-            "type" => "text",
-            "nullable" => true
-        ),
-    );
+    function __construct() {
+        $firstname = D3LDatabaseColumn::charField("firstname", 50);
+        $lastname = D3LDatabaseColumn::charField("lastname", 50);
+        $email = D3LDatabaseColumn::charField("email", 50);
+        $password = D3LDatabaseColumn::charField("password", 50);
+        $comment = D3LDatabaseColumn::textField("comment", true);
+
+        $this->addColumns(array(
+            $firstname,
+            $lastname,
+            $email,
+            $password,
+            $comment
+        ));
+    }
 }

@@ -2,19 +2,18 @@
 
 abstract class D3LController {
 
-    var $tableName = "";
-    var $primaryKey = "";
+    var $table;
 
     protected function getAll() {
-        $sql = "SELECT * FROM {$this->tableName}";
+        $sql = "SELECT * FROM {$this->table->name}";
 
         // Exécutez la requête SQL ici
 
         return $sql;
     }
 
-    protected function get($primaryKeyValue) {
-        $sql = "SELECT * FROM {$this->tableName} WHERE {$this->primaryKey} = {$primaryKeyValue}";
+    /*protected function get($primaryKeyValue) {
+        $sql = "SELECT * FROM {$this->table} WHERE {$this->primaryKey} = {$primaryKeyValue}";
 
         // Exécutez la requête SQL ici
 
@@ -64,7 +63,7 @@ abstract class D3LController {
         // Exécutez la requête SQL ici
 
         return $sql;
-    }
+    }*/
 
     protected function sendRawQuery($query) {
         return $query;

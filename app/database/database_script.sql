@@ -4,19 +4,18 @@ DROP TABLE IF EXISTS country;
 
 CREATE TABLE IF NOT EXISTS country (
 	id int(11) PRIMARY KEY AUTO_INCREMENT,
-	name varchar(255) NOT NULL,
-	code varchar(255) NOT NULL,
-	continent varchar(255) NOT NULL,
-	region varchar(255) NOT NULL
+	name varchar(50) NOT NULL,
+	capital varchar(50) NOT NULL,
+	population int
 );
 
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE IF NOT EXISTS user (
 	id int(11) PRIMARY KEY AUTO_INCREMENT,
-	firstname varchar(255) NOT NULL,
-	lastname varchar(255) NOT NULL,
-	email varchar(255) NOT NULL,
-	password varchar(255) NOT NULL,
+	firstname varchar(50) NOT NULL,
+	lastname varchar(50) NOT NULL,
+	email varchar(50) NOT NULL,
+	password varchar(50) NOT NULL,
 	comment text
 );

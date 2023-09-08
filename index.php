@@ -18,10 +18,3 @@ $router->get('/template', function(){
 });
 
 $router->run();
-
-include_once './d3l/database/DatabaseGeneration.php';
-include_once './app/database/tables/User.php';
-
-$databaseGeneration = new DatabaseGeneration();
-
-$databaseGeneration->generateDatabaseScriptFile();

@@ -1,42 +1,21 @@
 <?php
 
 include_once("./d3l/database/D3LDatabaseTable.php");
+include_once("./d3l/database/D3LDatabaseColumn.php");
 
 class Country extends D3LDatabaseTable {
 
     var $name = "country";
 
-    var $columns = array(
-        array(
-            "name" => "id",
-            "type" => "int",
-            "length" => 11,
-            "primary_key" => true,
-            "auto_increment" => true
-        ),
-        array(
-            "name" => "name",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "code",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "continent",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-        array(
-            "name" => "region",
-            "type" => "varchar",
-            "length" => 255,
-            "nullable" => false
-        ),
-    );
+    function __construct() {
+        $name = D3LDatabaseColumn::charField("name", 50);
+        $capital = D3LDatabaseColumn::charField("capital", 50);
+        $population = D3LDatabaseColumn::integerField("population", true);
+
+        $this->addColumns(array(
+            $name,
+            $capital,
+            $population
+        ));
+    }
 }
