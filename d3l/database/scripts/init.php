@@ -10,6 +10,7 @@ $dbInit = new DatabaseInit();
 DatabaseFiles::clean();
 $dbInit->generate();
 
+$query = DatabaseFiles::load("1-init.sql");
 
-//$dbContext = new DatabaseContext("profile");
-//$dbContext->executeQuery($query);
+$dbContext = new DatabaseContext("profile");
+$dbContext->executeQuery($query);

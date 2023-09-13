@@ -15,10 +15,11 @@ class DatabaseMigrationLogs {
         DatabaseFiles::generate($name, $json);
     }
 
-    static function loadLastLogTables() {
+    static function loadLastLogTables(): array {
         $files = glob(DatabaseFiles::MIGRATION_DIR . "*.json");
-        $lastFilePath = $files[count($files) - 1];
+        if (count($files) == 0) return array();
 
+        $lastFilePath = $files[count($files) - 1];
         $file = file_get_contents($lastFilePath);
         $data = json_decode($file);
 

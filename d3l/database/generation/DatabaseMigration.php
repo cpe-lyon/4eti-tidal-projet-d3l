@@ -18,15 +18,18 @@ class DatabaseMigration {
     }
 
     function generate() {
-
         if (!DatabaseFiles::initFileExists()) {
-            echo "No init script found, generating init script\n";
+            echo "No init script found\n";
             $dbInit = new DatabaseInit();
             $dbInit->generate();
             return;
         }
 
         $script = $this->generateScript();
+        if ($script == "") {
+            echo "No changes detected\n";
+            return;
+        }
         $this->saveFiles($script);
     }
 
@@ -37,8 +40,8 @@ class DatabaseMigration {
 
         $script .= $this->dropRemovedTables();
         $script .= $this->createNewTables();
-        $script .= $this->dropRemovedColumns();
-        $script .= $this->createNewColumns();
+        //$script .= $this->dropRemovedColumns();
+        //$script .= $this->createNewColumns();
 
         return $script;
     }
