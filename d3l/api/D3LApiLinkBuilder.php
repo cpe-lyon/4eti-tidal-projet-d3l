@@ -1,11 +1,12 @@
 <?php
 
 class D3LApiLinkBuilder{
-    public function BasicLinkBuilder(string $link, array $options){
+    static function BasicLinkBuilder(string $link, array $options){
         $link = $link . "?";
         foreach($options as $key => $value){
             $link = $link . $key . "=" . $value . "&";
         }
+        $link = substr($link, 0, -1);
         return $link;
     }
 
