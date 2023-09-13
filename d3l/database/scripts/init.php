@@ -9,7 +9,6 @@ $dbInit = new DatabaseInit();
 
 DatabaseFiles::clean();
 $dbInit->generate();
+$dbInit->execute();
 
-
-//$dbContext = new DatabaseContext("profile");
-//$dbContext->executeQuery($query);
+echo "Init script executed successfully\n";

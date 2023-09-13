@@ -12,13 +12,14 @@ class DatabaseMigrationLogs {
 
         $json = json_encode($data);
 
-        DatabaseFiles::generate($name, $json);
+        DatabaseFiles::generateLog($name, $json);
     }
 
-    static function loadLastLogTables() {
-        $files = glob(DatabaseFiles::MIGRATION_DIR . "*.json");
-        $lastFilePath = $files[count($files) - 1];
+    static function loadLastLogTables(): array {
+        $files = glob(DatabaseFiles::LOG_DIR . "*.json");
+        if (count($files) == 0) return array();
 
+        $lastFilePath = $files[count($files) - 1];
         $file = file_get_contents($lastFilePath);
         $data = json_decode($file);
 
@@ -26,12 +27,12 @@ class DatabaseMigrationLogs {
     }
 
     static function setExecuted(string $name) {
-        $file = DatabaseFiles::load($name);
+        $file = DatabaseFiles::loadMigrationLog($name);
         $data = json_decode($file);
 
         $data->is_executed = true;
         $json = json_encode($data);
 
-        DatabaseFiles::generate($name, $json);
+        DatabaseFiles::generateLog($name, $json);
     }
 }
