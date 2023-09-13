@@ -7,7 +7,7 @@ class D3LApiService {
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata',
+            CURLOPT_URL => $link,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
