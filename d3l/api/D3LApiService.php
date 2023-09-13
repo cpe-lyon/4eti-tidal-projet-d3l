@@ -2,7 +2,7 @@
 
 class D3LApiService {
 
-    static function Request($link, $format){
+    static function GetRequest($link, $format){
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
