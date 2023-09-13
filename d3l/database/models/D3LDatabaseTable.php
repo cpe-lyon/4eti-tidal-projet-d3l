@@ -1,15 +1,17 @@
 <?php
 
+include_once "d3l/database/models/D3LDatabaseColumn.php";
+
 abstract class D3LDatabaseTable {
 
     var $name = "";
     var $columns = array();
 
-    function addColumn($column) {
+    function addColumn(D3LDatabaseColumn $column) {
         array_push($this->columns, $column);
     }
 
-    function addColumns($columns) {
+    function addColumns(array $columns) {
         foreach ($columns as $column) {
             $this->addColumn($column);
         }
@@ -17,11 +19,12 @@ abstract class D3LDatabaseTable {
 
     function getPrimaryKeys(): array {
         return array_filter($this->columns, function($column) {
-            return isset($column["primary_key"]) && $column["primary_key"];
+            return isset($column->primary_key) && $column->primary_key;
         });
     }
     
     function isTableValid(): bool {
+        echo "Checking table {$this->name}...\n";
         return $this->hasTableName() &
             $this->hasAtLeastTwoColumns() &
             $this->isColumnsValid() &
@@ -60,7 +63,7 @@ abstract class D3LDatabaseTable {
         }, true);
     }
 
-    private function isColumnValid($column): bool {
-        return isset($column["name"]) && isset($column["type"]);
+    private function isColumnValid(D3LDatabaseColumn $column): bool {
+        return isset($column->name) && isset($column->type);
     }
 }

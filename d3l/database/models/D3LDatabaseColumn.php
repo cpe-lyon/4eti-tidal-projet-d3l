@@ -2,28 +2,28 @@
 
 class D3LDatabaseColumn {
 
-    static function charField(string $name, int $length = 255, bool $nullable = false) {
-        return array(
-            "name" => $name,
-            "type" => "varchar",
-            "length" => $length,
-            "nullable" => $nullable
-        );
+    var $name;
+    var $type;
+    var $length;
+    var $primary_key;
+    var $nullable;
+
+    function charField(string $name, int $length = 255, bool $nullable = false) {
+        $this->name = $name;
+        $this->type = "char";
+        $this->length = $length;
+        $this->nullable = $nullable;
     }
 
-    static function textField(string $name, bool $nullable = false) {
-        return array(
-            "name" => $name,
-            "type" => "text",
-            "nullable" => $nullable
-        );
+    function textField(string $name, bool $nullable = false) {
+        $this->name = $name;
+        $this->type = "text";
+        $this->nullable = $nullable;
     }
 
-    static function integerField(string $name, bool $nullable = false) {
-        return array(
-            "name" => $name,
-            "type" => "int",
-            "nullable" => $nullable
-        );
+    function integerField(string $name, bool $nullable = false) {
+        $this->name = $name;
+        $this->type = "integer";
+        $this->nullable = $nullable;
     }
 }
