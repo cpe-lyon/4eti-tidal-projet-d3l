@@ -12,9 +12,14 @@ class TemplateService {
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index()
     {
-        $template = new Template();
-        $template->assign('title', 'My Framework');
-        $template->assign('content', 'Welcome to my PHP framework!');
-        echo $template->render('layout.html');
+
+        $context = [
+            'title' => 'My Page',
+            'content' => 'John'
+        ];
+        
+        $engine = new Template($context);
+        $output = $engine->render('layout.html');
+        echo $output;
     }
 }
