@@ -2,7 +2,8 @@
 
 abstract class D3LController {
 
-    var $table;
+    var $tableName = "";
+    var $primaryKey = "";
 
     var $dbProfile = "";
     var $db;
@@ -13,21 +14,22 @@ abstract class D3LController {
         //Turn off emulated prepared statements.
         $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $this->db->connection->query('SET NAMES gbk');
+        
     }
 
     protected function getAll() {
         //Query
         $stmt = $this->db->connection->prepare('SELECT * FROM :tablename');
-        $stmt->execute(['tablename' => $this->table->name]);
+        $stmt->execute(['tablename' => $this->tableName]);
 
         //Return data
         return $stmt->fetchAll();
     }
 
-    /*protected function get($primaryKeyValue) {
+    protected function get($primaryKeyValue) {
         //Query
         $stmt = $this->db->connection->prepare('SELECT * FROM :tableName WHERE :primaryKey = :primaryKeyValue');
-        $stmt->execute(['tablename' => $this->table->name, 'primaryKey' => $this->primaryKey, 'primaryKeyValue' => $primaryKeyValue]);
+        $stmt->execute(['tablename' => $this->tableName, 'primaryKey' => $this->primaryKey, 'primaryKeyValue' => $primaryKeyValue]);
 
         //Return data
         return $stmt->fetchAll();
@@ -36,7 +38,7 @@ abstract class D3LController {
     protected function insert($data) {
         $columns = implode(", ", array_keys($data));
         $values = "'" . implode("', '", $data) . "'";
-        $sql = "INSERT INTO {$this->table->name} ({$columns}) VALUES ({$values})";
+        $sql = "INSERT INTO {$this->tableName} ({$columns}) VALUES ({$values})";
 
         // Exécutez la requête SQL ici
         // $sql contient la requête d'insertion
@@ -55,7 +57,7 @@ abstract class D3LController {
         }
         $setClause = implode(", ", $setClause);
 
-        $sql = "UPDATE {$this->table->name} SET {$setClause} WHERE {$this->primaryKey} = {$primaryKeyValue}";
+        $sql = "UPDATE {$this->tableName} SET {$setClause} WHERE {$this->primaryKey} = {$primaryKeyValue}";
 
         // Exécutez la requête SQL ici
 
@@ -63,7 +65,7 @@ abstract class D3LController {
     }
 
     protected function delete($primaryKeyValue) {
-        $sql = "DELETE FROM {$this->table->name} WHERE {$this->primaryKey} = {$primaryKeyValue}";
+        $sql = "DELETE FROM {$this->tableName} WHERE {$this->primaryKey} = {$primaryKeyValue}";
 
         // Exécutez la requête SQL ici
 
@@ -71,12 +73,12 @@ abstract class D3LController {
     }
 
     protected function findByField($field, $value) {
-        $sql = "SELECT * FROM {$this->table->name} WHERE {$field} = '{$value}'";
+        $sql = "SELECT * FROM {$this->tableName} WHERE {$field} = '{$value}'";
 
         // Exécutez la requête SQL ici
 
         return $sql;
-    }*/
+    }
 
     protected function sendRawQuery($query) {
         return $query;
