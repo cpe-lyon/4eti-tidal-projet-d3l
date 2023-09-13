@@ -31,28 +31,11 @@ class DatabaseContext {
             throw new ErrorException("Connection is null");
         }
 
-        $stmt = $this->connection->prepare($query);
-
-        if ($stmt->execute()) {
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            $this->connection->exec($query);
         }
-        else {
-            throw new ErrorException("Query failed");
+        catch (PDOException $e) {
+            throw new ErrorException("PDO query failed: " . $e->getMessage());
         }
-
-        /*if ($dbContext->connection == null) {
-            echo "Connection failed\n";
-            return;
-        }
-
-        $stmt = $dbContext->connection->prepare($query);
-
-        echo "Executing script...\n";
-        if ($stmt->execute()) {
-            echo "Success\n";
-        }
-        else {
-            echo "Fail\n";
-        }*/
     }
 }

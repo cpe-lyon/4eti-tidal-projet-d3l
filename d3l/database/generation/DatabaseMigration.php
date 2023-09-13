@@ -33,6 +33,25 @@ class DatabaseMigration {
         $this->saveFiles($script);
     }
 
+    function execute() {
+        $files = DatabaseFiles::getNotExecutedMigrations();
+
+        if (count($files) == 0) {
+            echo "No migrations to execute\n";
+            return;
+        }
+
+        foreach ($files as $file) {
+            $query = DatabaseFiles::loadMigration($file);
+            $dbContext = new DatabaseContext("profile");
+            $dbContext->executeQuery($query);
+            DatabaseMigrationLogs::setExecuted($file);
+
+            $id = explode("-", $file)[0];
+            echo "Migration {$id} executed successfully\n";
+        }
+    }
+
     private function generateScript(): string {
         $script = "";
 
@@ -124,7 +143,7 @@ class DatabaseMigration {
         $logFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".json";
 
         echo "Saving migration {$fileId} script\n";
-        DatabaseFiles::generate($sqlFileName, $script);
+        DatabaseFiles::generateMigration($sqlFileName, $script);
 
         echo "Saving migration {$fileId} log\n";
         DatabaseMigrationLogs::save($logFileName, $this->updatedTables);

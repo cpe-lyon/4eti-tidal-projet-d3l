@@ -3,6 +3,7 @@
 include_once "d3l/database/generation/utils/DatabaseFiles.php";
 include_once "d3l/database/generation/utils/DatabaseTable.php";
 include_once "d3l/database/generation/utils/DatabaseMigrationLogs.php";
+include_once "d3l/database/DatabaseContext.php";
 
 class DatabaseInit {
 
@@ -16,6 +17,14 @@ class DatabaseInit {
     function generate() {
         $script = $this->generateScript();
         $this->saveFiles($script);
+    }
+
+    function execute() {
+        $fileBase = "1-init";
+        $query = DatabaseFiles::loadMigration($fileBase);
+        $dbContext = new DatabaseContext("profile");
+        $dbContext->executeQuery($query);
+        DatabaseMigrationLogs::setExecuted($fileBase);
     }
 
     private function generateScript(): string {
@@ -44,7 +53,7 @@ class DatabaseInit {
         $logFileName = $fileId . "-" . self::INIT_FILE_BASE . ".json";
 
         echo "Saving init script\n";
-        DatabaseFiles::generate($sqlFileName, $script);
+        DatabaseFiles::generateMigration($sqlFileName, $script);
 
         echo "Saving init log\n";
         DatabaseMigrationLogs::save($logFileName, $this->tables);
