@@ -66,6 +66,18 @@ class Router {
         return null;
     }
 
+    protected function convert_to_type(string $input){
+        if(preg_match("/\d+/", $input)){
+            return (int) $input;
+        }
+
+        if(preg_match("/^[\d]+(|\.[\d]+)$/", $input)){
+            return (float) $input;
+        }
+
+        return $input;
+    }
+
 
     private function matchRequest(string $request, Route $route, ?array &$params = []): bool {
         $requestArray = explode('/', $request);
@@ -88,8 +100,7 @@ class Router {
                     $paramRegExp = (empty($routeParameter[1]) ? '[\w\-]+': $routeParameter[1]);
 
                     if (preg_match('/^' . $paramRegExp . '$/', $requestArray[$index])) {
-                        $params[$paramName] = $requestArray[$index];
-
+                        $params[$paramName] = $this->convert_to_type($requestArray[$index]);
                         continue;
                     }
                 } elseif ($urlPart === $requestArray[$index]) {
