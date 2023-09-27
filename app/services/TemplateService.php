@@ -10,11 +10,23 @@ use AttributesRouter\Attribute\Route;
 class TemplateService {
 
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(){
-        $template = new Template();
-        $template->assign('title', 'My Framework');
-        $template->assign('content', 'Welcome to my PHP framework!');
-        echo $template->render('layout.html');
+
+    public function index()
+    {
+
+        $context = [
+            'title' => 'My Page',
+            'content' => 'John',
+            'items' => [
+                'John',
+                'Jane',
+                'Joe',
+            ],
+        ];
+        
+        $engine = new Template($context);
+        $output = $engine->render('layout.html');
+        echo $output;
     }
 
     #[Route('/id/{id<\d+>}', name: 'id', methods: ['GET'])]
