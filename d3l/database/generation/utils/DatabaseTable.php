@@ -1,13 +1,14 @@
 <?php
 
+include_once "d3l/database/models/D3LDatabaseTable.php";
 include_once "d3l/database/generation/utils/DatabaseColumn.php";
 
 class DatabaseTable {
 
-    static function create(string $name, array $columns): string {
-        $query = "\nCREATE TABLE IF NOT EXISTS \"{$name}\" (\n";
+    static function create(D3LDatabaseTable $table): string {
+        $query = "\nCREATE TABLE IF NOT EXISTS \"{$table->name}\" (\n";
 
-        foreach ($columns as $column) {
+        foreach ($table->columns as $column) {
             $query .= DatabaseColumn::generate($column);
         }
 
@@ -29,7 +30,6 @@ class DatabaseTable {
                 return $table;
             }
         }
-
         return null;
     }
 }

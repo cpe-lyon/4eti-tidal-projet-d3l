@@ -4,8 +4,8 @@ include_once "d3l/database/models/D3LDatabaseColumn.php";
 
 abstract class D3LDatabaseTable {
 
-    var $name = "";
-    var $columns = array();
+    var string $name = "";
+    var array $columns = array();
 
     function addColumn(D3LDatabaseColumn $column) {
         array_push($this->columns, $column);
@@ -27,8 +27,7 @@ abstract class D3LDatabaseTable {
         echo "Checking table {$this->name}...\n";
         return $this->hasTableName() &
             $this->hasAtLeastTwoColumns() &
-            $this->isColumnsValid() &
-            $this->hasAtLeastOnePrimaryKey();
+            $this->isColumnsValid();
     }
 
     private function hasTableName(): bool {
@@ -43,14 +42,11 @@ abstract class D3LDatabaseTable {
     function addPrimaryKeyIfNotExists() {
         if ($this->hasAtLeastOnePrimaryKey()) return;
 
-        $idColumn = array(
-            "name" => "id",
-            "type" => "serial",
-            "primary_key" => true,
-            "nullable" => false,
-        );
+        $primaryKey = new D3LDatabaseColumn();
+        $primaryKey->integerField("id");
+        $primaryKey->primary_key = true;
 
-        array_unshift($this->columns, $idColumn);
+        array_unshift($this->columns, $primaryKey);
     }
 
     private function hasAtLeastTwoColumns(): bool {

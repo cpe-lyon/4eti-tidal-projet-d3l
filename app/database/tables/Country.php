@@ -5,7 +5,7 @@ include_once "d3l/database/models/D3LDatabaseColumn.php";
 
 class Country extends D3LDatabaseTable {
 
-    var $name = "country";
+    var string $name = "country";
 
     function __construct() {
         $name = new D3LDatabaseColumn();

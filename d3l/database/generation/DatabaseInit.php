@@ -8,7 +8,7 @@ include_once "d3l/database/DatabaseContext.php";
 class DatabaseInit {
 
     const INIT_FILE_BASE = "init";
-    var $tables = array();
+    var array $tables = array();
 
     function __construct() {
         $this->tables = DatabaseFiles::loadTables();
@@ -20,7 +20,7 @@ class DatabaseInit {
     }
 
     function execute() {
-        $fileBase = "1-init";
+        $fileBase = "1-" . self::INIT_FILE_BASE;
         $query = DatabaseFiles::loadMigration($fileBase);
         $dbContext = new DatabaseContext("profile");
         $dbContext->executeQuery($query);
@@ -40,7 +40,7 @@ class DatabaseInit {
             $script .= DatabaseTable::drop($table->name) . "\n";
             echo "-> Dropped table {$table->name}\n";
 
-            $script .= DatabaseTable::create($table->name, $table->columns) . "\n";
+            $script .= DatabaseTable::create($table) . "\n";
             echo "-> Created table {$table->name}\n";
         }
 

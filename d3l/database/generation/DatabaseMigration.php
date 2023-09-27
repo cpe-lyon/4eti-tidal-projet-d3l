@@ -59,8 +59,8 @@ class DatabaseMigration {
 
         $script .= $this->dropRemovedTables();
         $script .= $this->createNewTables();
-        //$script .= $this->dropRemovedColumns();
-        //$script .= $this->createNewColumns();
+        $script .= $this->dropRemovedColumns();
+        $script .= $this->createNewColumns();
 
         return $script;
     }
@@ -75,7 +75,7 @@ class DatabaseMigration {
 
             if ($currentTable == null) {
                 echo "-> Adding table {$updatedTable->name}\n";
-                $script .= DatabaseTable::create($updatedTable->name, $updatedTable->columns);
+                $script .= DatabaseTable::create($updatedTable);
             }
         }
 
@@ -100,7 +100,7 @@ class DatabaseMigration {
     private function createNewColumns(): string {
         $script = "";
 
-        /*foreach ($this->updatedTables as $updatedTable) {
+        foreach ($this->updatedTables as $updatedTable) {
             $currentTable = DatabaseTable::getTableByName($this->currentTables, $updatedTable->name);
 
             foreach ($updatedTable->columns as $updatedColumn) {
@@ -111,7 +111,7 @@ class DatabaseMigration {
                     $script .= DatabaseColumn::generateWithAlterTable($updatedTable->name, $updatedColumn);
                 }
             }
-        }*/
+        }
 
         return $script;
     }

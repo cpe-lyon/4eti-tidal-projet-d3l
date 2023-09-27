@@ -2,11 +2,21 @@
 
 class D3LDatabaseColumn {
 
-    var $name;
-    var $type;
-    var $length;
-    var $primary_key;
-    var $nullable;
+    var $name = null;
+    var $type  = null;
+    var $length = null;
+    var $primary_key = false;
+    var $nullable = null;
+
+    function toArray(): array {
+        return array(
+            "name" => $this->name,
+            "type" => $this->type,
+            "length" => $this->length,
+            "primary_key" => $this->primary_key,
+            "nullable" => $this->nullable
+        );
+    }
 
     function charField(string $name, int $length = 255, bool $nullable = false) {
         $this->name = $name;
