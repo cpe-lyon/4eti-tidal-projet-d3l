@@ -2,26 +2,54 @@
 
 abstract class D3LDatabaseTable {
 
-    var $table = "";
+    var $name = "";
     var $columns = array();
-    
-    function isTableValid() {
-        return $this->hasTableName() & $this->hasOnlyOnePrimaryKey() & $this->hasAtLeastTwoColumns();
+
+    function addColumn($column) {
+        array_push($this->columns, $column);
     }
 
-    private function hasTableName() {
-        return $this->table != "";
+    function addColumns($columns) {
+        foreach ($columns as $column) {
+            $this->addColumn($column);
+        }
     }
 
-    private function hasOnlyOnePrimaryKey() {
-        // check if columns has only one primary key
-        $primaryKeys = array_filter($this->columns, function($column) {
+    function getPrimaryKeys(): array {
+        return array_filter($this->columns, function($column) {
             return isset($column["primary_key"]) && $column["primary_key"];
         });
-        return count($primaryKeys) != 1;
+    }
+    
+    function isTableValid(): bool {
+        $this->addPrimaryKeyIfNotExists();
+        return $this->hasTableName() & $this->hasAtLeastTwoColumns();
     }
 
-    private function hasAtLeastTwoColumns() {
+    private function hasTableName(): bool {
+        return $this->name != "";
+    }
+
+    private function hasAtLeastOnePrimaryKey(): bool {
+        $primaryKeys = $this->getPrimaryKeys(); 
+        return count($primaryKeys) > 0;
+    }
+
+    private function addPrimaryKeyIfNotExists() {
+        if ($this->hasAtLeastOnePrimaryKey()) return;
+
+        $idColumn = array(
+            "name" => "id",
+            "type" => "int",
+            "length" => 11,
+            "primary_key" => true,
+            "auto_increment" => true
+        );
+
+        array_unshift($this->columns, $idColumn);
+    }
+
+    private function hasAtLeastTwoColumns(): bool {
         return count($this->columns) >= 2;
     }
 }
