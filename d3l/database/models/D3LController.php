@@ -16,10 +16,9 @@ abstract class D3LController {
 
     protected function getAll() {
         //Query
-        $stmt = $this->db->connection->prepare("SELECT * FROM :tablename");
-        $stmt->execute(['tablename' => $this->tableName]);
-
-        //Return data
+        $query = "SELECT * FROM " . $this->tableName;
+        $stmt = $this->db->connection->prepare($query);
+        $stmt->execute();
         return $stmt->fetchAll();
     }
 
