@@ -44,7 +44,7 @@ abstract class D3LDatabaseTable {
 
         $primaryKey = new D3LDatabaseColumn();
         $primaryKey->integerField("id");
-        $primaryKey->primary_key = true;
+        $primaryKey->primaryKey();
 
         array_unshift($this->columns, $primaryKey);
     }
@@ -60,6 +60,17 @@ abstract class D3LDatabaseTable {
     }
 
     private function isColumnValid(D3LDatabaseColumn $column): bool {
-        return isset($column->name) && isset($column->type);
+        $hasNecessaryFields = isset($column->name) && isset($column->type);
+        $isForeignKeyValid = $this->isForeignKeyValid($column);
+
+        return $hasNecessaryFields && $isForeignKeyValid;
+    }
+
+    private function isForeignKeyValid(D3LDatabaseColumn $column) {
+        if ($column->foreign_key === null) return true;
+
+        $hasTable = isset($column->foreign_key['table']);
+        $hasColumn = isset($column->foreign_key['column']);
+        return $hasTable && $hasColumn;
     }
 }
