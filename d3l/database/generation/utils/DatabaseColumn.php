@@ -28,7 +28,7 @@ class DatabaseColumn {
         return $query;
     }
 
-    static function generateForeignKey(string $tableName, D3LDatabaseColumn $column): string {
+    static function generateForeignKeyConstraint(string $tableName, D3LDatabaseColumn $column): string {
         if ($column->foreign_key === null) return "";
 
         $params = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $column->toArray());

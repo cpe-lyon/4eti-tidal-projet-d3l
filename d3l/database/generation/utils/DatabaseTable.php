@@ -24,12 +24,12 @@ class DatabaseTable {
         return $query;
     }
 
-    static function generateForeignKeys(D3LDatabaseTable $table): string {
+    static function generateForeignKeyConstraints(D3LDatabaseTable $table): string {
         $query = "";
 
         foreach ($table->columns as $column) {
             if ($column->foreign_key == null) continue;
-            $query .= DatabaseColumn::generateForeignKey($table->name, $column);
+            $query .= DatabaseColumn::generateForeignKeyConstraint($table->name, $column);
         }
 
         return $query;
