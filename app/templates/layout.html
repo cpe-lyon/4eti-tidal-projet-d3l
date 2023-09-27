@@ -2,11 +2,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $title; ?></title>
+    <title>{{title}}</title>
 </head>
 <body>
-    <div id="content">
-        <?php echo $content; ?>
-    </div>
+
+    {% if 1 == 1 %}
+        <div>1 == 1</div>
+    {% else %}
+        <div>1 != 1</div>
+    {% endif %}
+
+    {% for i in items %}
+        <div>{{i}}</div>
+    {% endfor %}
+
+    <div>Hello</div>
+    <div id="content">{{content}}</div>
 </body>
 </html>

@@ -4,10 +4,10 @@ class DatabaseColumn {
 
     const COLUMN_PARAMS = ["name", "type", "length", "primary_key", "nullable"];
 
-    static function generate(array $column): string {
+    static function generate(D3LDatabaseColumn $column): string {
         $query = "";
 
-        $params = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $column);
+        $params = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $column->toArray());
 
         $query .= "\t{$params['name']} {$params['type']}";
 
@@ -28,20 +28,20 @@ class DatabaseColumn {
         return $query;
     }
 
-    static function generateWithAlterTable(string $table, array $column): string {
-        $query = "ALTER TABLE \"{$table}\" ADD COLUMN";
+    static function generateWithAlterTable(string $table, D3LDatabaseColumn $column): string {
+        $query = "\nALTER TABLE \"{$table}\" ADD COLUMN";
         $query .= DatabaseColumn::generate($column);
         return $query;
     }
 
     static function drop(string $table, string $name): string {
-        $query = "ALTER TABLE \"{$table}\" DROP COLUMN \"{$name}\";\n";
+        $query = "\nALTER TABLE \"{$table}\" DROP COLUMN \"{$name}\";\n";
         return $query;
     }
 
-    static function compareColumns($currentColumn, $newColumn): bool {
-        $currentParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $currentColumn);
-        $newParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $newColumn);
+    static function compareColumns(D3LDatabaseColumn $currentColumn, D3LDatabaseColumn $newColumn): bool {
+        $currentParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $currentColumn->toArray());
+        $newParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $newColumn->toArray());
 
         return $currentParams['name'] == $newParams['name'] &&
             $currentParams['type'] == $newParams['type'] &&
@@ -52,11 +52,10 @@ class DatabaseColumn {
 
     static function getColumnByName(array $columns, string $name) {
         foreach ($columns as $column) {
-            if ($column['name'] == $name) {
+            if ($column->name == $name) {
                 return $column;
             }
         }
-
         return null;
     }
 }
