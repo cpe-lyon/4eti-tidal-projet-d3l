@@ -2,6 +2,7 @@
 
 include_once "d3l/database/models/D3LDatabaseTable.php";
 include_once "d3l/database/models/D3LDatabaseColumn.php";
+include_once "User.php";
 
 class Country extends D3LDatabaseTable {
 
@@ -17,10 +18,15 @@ class Country extends D3LDatabaseTable {
         $population = new D3LDatabaseColumn();
         $population->integerField("population");
 
+        $president = new D3LDatabaseColumn();
+        $userTable = new User();
+        $president->foreignKey("president", $userTable, $userTable->getPrimaryKeys()[0]);
+
         $this->addColumns(array(
             $name,
             $capital,
-            $population
+            $population,
+            $president
         ));
     }
 }

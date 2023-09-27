@@ -44,6 +44,11 @@ class DatabaseInit {
             echo "-> Created table {$table->name}\n";
         }
 
+        foreach ($this->tables as $table) {
+            $script .= DatabaseTable::generateForeignKeyConstraints($table) . "\n";
+            echo "-> Generated foreign key cosntraints for table {$table->name}\n";
+        }
+
         return $script;
     }
 

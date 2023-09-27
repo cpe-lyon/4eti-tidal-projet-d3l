@@ -28,6 +28,14 @@ class DatabaseColumn {
         return $query;
     }
 
+    static function generateForeignKeyConstraint(string $tableName, D3LDatabaseColumn $column): string {
+        if ($column->foreign_key === null) return "";
+
+        $params = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $column->toArray());
+
+        return "\nALTER TABLE \"{$tableName}\" ADD CONSTRAINT \"{$tableName}_{$params['name']}_fkey\" FOREIGN KEY (\"{$params['name']}\") REFERENCES \"{$params['foreign_key']['table']}\" (\"{$params['foreign_key']['column']}\");\n";
+    }
+
     static function generateWithAlterTable(string $table, D3LDatabaseColumn $column): string {
         $query = "\nALTER TABLE \"{$table}\" ADD COLUMN";
         $query .= DatabaseColumn::generate($column);

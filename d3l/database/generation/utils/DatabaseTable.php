@@ -20,7 +20,18 @@ class DatabaseTable {
     }
 
     static function drop(string $name): string {
-        $query = "\nDROP TABLE IF EXISTS \"{$name}\";\n";
+        $query = "\nDROP TABLE IF EXISTS \"{$name}\";";
+        return $query;
+    }
+
+    static function generateForeignKeyConstraints(D3LDatabaseTable $table): string {
+        $query = "";
+
+        foreach ($table->columns as $column) {
+            if ($column->foreign_key == null) continue;
+            $query .= DatabaseColumn::generateForeignKeyConstraint($table->name, $column);
+        }
+
         return $query;
     }
 

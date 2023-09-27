@@ -8,6 +8,10 @@ class User extends D3LDatabaseTable {
     var string $name = "user";
 
     function __construct() {
+        $id = new D3LDatabaseColumn();
+        $id->integerField("id");
+        $id->primaryKey();
+
         $firstname = new D3LDatabaseColumn();
         $firstname->charField("firstname", 50);
 
@@ -24,6 +28,7 @@ class User extends D3LDatabaseTable {
         $comment->textField("comment");
 
         $this->addColumns(array(
+            $id,
             $firstname,
             $lastname,
             $email,
