@@ -20,7 +20,7 @@ class DatabaseTable {
     }
 
     static function drop(string $name): string {
-        $query = "\nDROP TABLE IF EXISTS \"{$name}\";\n";
+        $query = "\nDROP TABLE IF EXISTS \"{$name}\";";
         return $query;
     }
 
