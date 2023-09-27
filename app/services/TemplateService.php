@@ -15,7 +15,12 @@ class TemplateService {
 
         $context = [
             'title' => 'My Page',
-            'content' => 'John'
+            'content' => 'John',
+            'items' => [
+                'John',
+                'Jane',
+                'Joe',
+            ],
         ];
         
         $engine = new Template($context);
