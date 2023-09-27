@@ -10,12 +10,22 @@ class D3LApiLinkBuilder{
         return $link;
     }
 
-    public function AuthenticationLinkBuilder(string $link, array $options, string $apiKey){
+    static function AuthenticationLinkBuilder(string $link, array $options, string $apiKey){
         $link = $link . "?";
         foreach($options as $key => $value){
             $link = $link . $key . "=" . $value . "&";
         }
         $link = $link . "api_key=" . $apiKey;
+        return $link;
+    }
+
+    static function AuthenticationLinkWithHash(string $link, array $options, string $apiKey, string $apiSecret){
+        $link = $link . "?";
+        foreach($options as $key => $value){
+            $link = $link . $key . "=" . $value . "&";
+        }
+        $link = $link . "api_key=" . $apiKey . "&";
+        $link = $link . "hash=" . hash_hmac('sha256', $link, $apiSecret);
         return $link;
     }
 }
