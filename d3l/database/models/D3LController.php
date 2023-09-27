@@ -1,8 +1,10 @@
 <?php
 
+require_once './d3l/database/DatabaseContext.php';
+
 abstract class D3LController {
 
-    var $table;
+    var $tableName;
     var $db;
 
     function __construct(string $profile) {
@@ -10,13 +12,12 @@ abstract class D3LController {
         
         //Turn off emulated prepared statements.
         $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $this->db->connection->query('SET NAMES gbk');
     }
 
     protected function getAll() {
         //Query
-        $stmt = $this->db->connection->prepare('SELECT * FROM :tablename');
-        $stmt->execute(['tablename' => $this->table->name]);
+        $stmt = $this->db->connection->prepare("SELECT * FROM :tablename");
+        $stmt->execute(['tablename' => $this->tableName]);
 
         //Return data
         return $stmt->fetchAll();

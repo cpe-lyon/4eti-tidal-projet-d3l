@@ -113,43 +113,4 @@ class Router {
 
         return true;
     }
-
- 
-    public function generateUrl(string $routeName, array $parameters = []): string {
-        if (!isset($this->routes[$routeName])) {
-            throw new \OutOfRangeException(sprintf(
-                'The route does not exist. Check that the given route name "%s" is valid.',
-                $routeName
-            ));
-        }
-
-        $route = $this->routes[$routeName]['route'];
-        $path = $route->getPath();
-
-        if ($route->hasParams()) {
-            $routeParams = $route->fetchParams();
-
-            if ($missingParameters = array_diff_key($routeParams, $parameters)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'The following parameters are missing for generating the route "%s": %s',
-                    $routeName,
-                    implode(', ', array_keys($missingParameters))
-                ));
-            }
-
-            foreach ($routeParams as $paramName => $regex) {
-                $regex = (!empty($regex) ? $regex : Route::DEFAULT_REGEX);
-
-                if (!preg_match("/^$regex$/", $parameters[$paramName])) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'The "%s" route parameter value given does not match the regular expression',
-                        $paramName
-                    ));
-                }
-                $path = preg_replace('/{' . $paramName . '(<.+?>)?}/', $parameters[$paramName], $path);
-            }
-        }
-
-        return $this->baseURI . $path;
-    }
 }

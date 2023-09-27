@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   php:
-    image: php:apache
+    build: ./ressources/docker/
     container_name: my-php-container
     ports:
       - "80:80"
