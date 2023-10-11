@@ -1,6 +1,6 @@
 <?php
 
-namespace App\UserController;
+namespace App;
 
 require_once "./app/database/models/User.php";
 require_once "./d3l/database/models/D3LController.php";
@@ -50,6 +50,7 @@ class UserController extends \D3LController {
             'root',
             'léon'
         );
+        echo "test";
         $ret = $this->save($user);
         echo "saved : " . $ret;
     }

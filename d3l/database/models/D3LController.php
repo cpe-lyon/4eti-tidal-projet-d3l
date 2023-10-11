@@ -34,8 +34,8 @@ abstract class D3LController {
         $columns = implode(", ", array_keys($data_arr));
         $values = implode(", ", $this->getValuesFormatted(array_values($data_arr)));
         $sql = "INSERT INTO {$this->tableName} ({$columns}) VALUES ({$values})";
-        echo $sql;
         $stmt = $this->db->connection->prepare($sql);
+        echo $sql;
         return $stmt->execute();
     }
 
