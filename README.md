@@ -1,13 +1,56 @@
 # D3l
 
 D3l est un framework léger qui permet de faire des sites en PHP. Il dispose des fonctionnalités suivantes:
+- Middleware
+- Moteur de templating
+- Routage automatique
+- Migration de la base de données
+- Gestion de la base de données simplifiée
+- Simplification des appels à des API externes
+## Middleware
 
-- moteur de templating
-- migration de la base de données
-- gestion de la base de données simplifiée
-- routage automatique
-- simplification des appels à des API externes
+Les middlewares sont des fonctions qui sont exécutées avant ou après une requête.
 
+- Étape 1 : Créez une instance dux middleware
+
+ Le fichier `index.php` à la racine représente le point d'entrée de l'application. On construit une file de middlewares à l'aide de la classe `MiddlewareQueue` et on l'injecte dans l'application.
+
+```php
+// Create a middleware queue
+$middlewareQueue = new MiddlewareQueue();
+
+// Add middlewares to the queue
+$middlewareQueue->addMiddleware(new CorsMiddleware());
+$middlewareQueue->addMiddleware(new ExceptionsMiddleware());
+$middlewareQueue->addMiddleware(new RoutingMiddleware());
+
+// Handle the request with the middlewares
+$response = $middlewareQueue->handle($_REQUEST);
+```
+
+- Étape 2 : Créez vos middlewares
+
+Créez des classes qui étendent la classe `Middleware` et implémentez la méthode `handle`. Par exemple, ExceptionsMiddleware ressemble à ceci :
+
+```php
+class ExceptionsMiddleware extends Middleware
+{
+    public function handle($request, $nextMiddleware)
+    {
+        try { // Try to handle the request with the next middleware
+            $response = $nextMiddleware->handle($request);
+            return $response;
+            
+        } catch (RouteNotFoundException $e) { // Catch route not found exceptions
+            http_response_code($e->getCode());
+        }
+        
+        catch ( \Exception $e ) { // Catch all other exceptions
+            http_response_code(500);
+        }
+    }
+}
+```
 ## Moteur de templating
 
 - Étape 1 : Créez une instance du moteur de template
@@ -89,11 +132,6 @@ Créez des fichiers HTML avec les placeholders {{ ... }} pour les données que v
 </body>
 </html>
 ```
-
-## Migration de la base de données
-
-## Gestion de la base de données simplifiée
-
 ## Routage automatique
 
 Le routage dynamique se fait par le biais d'annotations / attributs. Par exemple:
@@ -114,4 +152,10 @@ On peut également donner des `regex` pour donner de quel type doit et va être 
 
 *Note: Pour l'instant seuls 3 types sont supportés; `integer`,`float`,`string`.*
 
+En cas de route non trouvée, une exeception est levée dans le middleware `RoutingMiddleware` et est attrapée par le middleware `ExceptionsMiddleware` qui renvoie une erreur 404.
+
+Il est possible de modifier la page d'erreur 404 en modifiant le fichier `404.html` dans le dossier `templates`.
+
 ## Simplification des appels à des API externes
+## Migration de la base de données
+## Gestion de la base de données simplifiée
