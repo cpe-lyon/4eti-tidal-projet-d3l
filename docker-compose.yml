@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:15
     container_name: my-postgres-container
     environment:
       POSTGRES_DB: mydatabase
@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   php:
-    image: php:apache
+    build: ./ressources/docker/
     container_name: my-php-container
     ports:
       - "80:80"
