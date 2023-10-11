@@ -15,7 +15,7 @@ case "$command" in
         echo "you should use this ip in your config.json file"
         ;;
     "db:init")
-        php "d3l/database/scripts/init.php"
+        docker exec my-php-container php "d3l/database/scripts/init.php"
         ;;
     "db:migrate")
         if [ "$args" == "--create" ]; then
@@ -23,7 +23,7 @@ case "$command" in
             exit 0
         fi
         php "d3l/database/scripts/newMigration.php"
-        php "d3l/database/scripts/migrate.php"
+        docker exec my-php-container php "d3l/database/scripts/migrate.php"
         ;;
 
 # command not found
