@@ -6,6 +6,7 @@ if [ $# -lt 1 ]; then
 fi
 
 command="$1"
+args="${@:2}"
 
 case "$command" in
 # database commands
@@ -16,10 +17,12 @@ case "$command" in
     "db:init")
         php "d3l/database/scripts/init.php"
         ;;
-    "db:newMigration")
-        php "d3l/database/scripts/newMigration.php"
-        ;;
     "db:migrate")
+        if [ "$args" == "--create" ]; then
+            php "d3l/database/scripts/newMigration.php"
+            exit 0
+        fi
+        php "d3l/database/scripts/newMigration.php"
         php "d3l/database/scripts/migrate.php"
         ;;
 
