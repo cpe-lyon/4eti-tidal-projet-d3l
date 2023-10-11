@@ -9,43 +9,52 @@ abstract class D3LController {
 
     function __construct(string $profile) {
         $this->db = new DatabaseContext($profile);
-        
-        //Turn off emulated prepared statements.
         $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
     protected function getAll() {
-        //Query
         $query = "SELECT * FROM " . $this->tableName;
         $stmt = $this->db->connection->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    /*protected function get($primaryKeyValue) {
-        //Query
-        $stmt = $this->db->connection->prepare('SELECT * FROM :tableName WHERE :primaryKey = :primaryKeyValue');
-        $stmt->execute(['tablename' => $this->table->name, 'primaryKey' => $this->primaryKey, 'primaryKeyValue' => $primaryKeyValue]);
-
-        //Return data
-        return $stmt->fetchAll();
+    protected function findById(int $id){
+        $query = "SELECT * FROM " . $this->tableName . " WHERE id = " . $id;
+        $stmt = $this->db->connection->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll()[0];
     }
 
-    protected function insert($data) {
-        $columns = implode(", ", array_keys($data));
-        $values = "'" . implode("', '", $data) . "'";
-        $sql = "INSERT INTO {$this->table->name} ({$columns}) VALUES ({$values})";
-
-        // Exécutez la requête SQL ici
-        // $sql contient la requête d'insertion
-
-        // Exemple de code pour exécuter la requête (vous devrez utiliser un objet de connexion à la base de données)
-        // $pdo = new PDO(...); // Initialisez votre connexion PDO ici
-        // $pdo->exec($sql);
-
-        return $sql;
+    
+    protected function save($data) {
+        $data_arr = (array) $data;
+        array_diff($data_arr, ['id']);
+        unset($data_arr['id']);
+        $columns = implode(", ", array_keys($data_arr));
+        $values = implode(", ", $this->getValuesFormatted(array_values($data_arr)));
+        $sql = "INSERT INTO {$this->tableName} ({$columns}) VALUES ({$values})";
+        echo $sql;
+        $stmt = $this->db->connection->prepare($sql);
+        return $stmt->execute();
     }
 
+    private function getValuesFormatted($params){
+        $values = [];
+        foreach($params as $param){
+            array_push($values, $this->formatValues($param));
+        }
+        return $values;
+    }
+
+    private function formatValues($param){
+        if(gettype($param) === "string"){
+            return "'" . $param . "'";
+        }
+        return $param;
+    }
+
+    /*
     protected function update($primaryKeyValue, $data) {
         $setClause = [];
         foreach ($data as $key => $value) {

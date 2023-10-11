@@ -2,38 +2,18 @@
 
 include_once "d3l/database/models/D3LDatabaseTable.php";
 include_once "d3l/database/models/D3LDatabaseColumn.php";
+require_once "./app/database/models/User.php";
 
 class User extends D3LDatabaseTable {
 
     var string $name = "user";
 
     function __construct() {
-        $id = new D3LDatabaseColumn();
-        $id->integerField("id");
-        $id->primaryKey();
+        
+        $refl_user = new \ReflectionClass("Models\User");
 
-        $firstname = new D3LDatabaseColumn();
-        $firstname->charField("firstname", 50);
+        $user_arr = $this->parseClass($refl_user);
 
-        $lastname = new D3LDatabaseColumn();
-        $lastname->charField("lastname", 50);
-
-        $email = new D3LDatabaseColumn();
-        $email->charField("email", 50);
-
-        $password = new D3LDatabaseColumn();
-        $password->charField("password", 50);
-
-        $comment = new D3LDatabaseColumn();
-        $comment->textField("comment");
-
-        $this->addColumns(array(
-            $id,
-            $firstname,
-            $lastname,
-            $email,
-            $password,
-            $comment
-        ));
+        $this->addColumns($user_arr);
     }
 }

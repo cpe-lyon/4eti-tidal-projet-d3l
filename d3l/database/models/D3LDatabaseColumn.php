@@ -42,6 +42,7 @@ class D3LDatabaseColumn {
     function primaryKey() {
         if ($this->type == "integer") $this->type = "serial";
         $this->primary_key = true;
+        $this->nullable = true;
     }
 
     function foreignKey(string $name, D3LDatabaseTable $table, D3LDatabaseColumn $column) {
