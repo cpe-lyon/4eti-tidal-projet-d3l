@@ -108,7 +108,8 @@ class DatabaseMigration {
 
                 if ($currentColumn == null) {
                     echo "-> Adding column {$updatedColumn->name} to table {$updatedTable->name}\n";
-                    $script .= DatabaseColumn::generateWithAlterTable($updatedTable->name, $updatedColumn);
+                    $script .= DatabaseColumn::generateWithAlterTable($updatedTable->name, $updatedColumn);                    $script .= DatabaseColumn::generateForeignKeyConstraint($updatedTable->name, $updatedColumn);
+                    $script .= DatabaseColumn::generateForeignKeyConstraint($updatedTable->name, $updatedColumn);
                 }
             }
         }
@@ -129,6 +130,7 @@ class DatabaseMigration {
 
                 if ($updatedColumn == null) {
                     echo "-> Dropping column {$currentColumn->name} from table {$currentTable->name}\n";
+                    $script .= DatabaseColumn::dropForeignKeyConstraint($currentTable->name, $currentColumn);
                     $script .= DatabaseColumn::drop($currentTable->name, $currentColumn->name);
                 }
             }

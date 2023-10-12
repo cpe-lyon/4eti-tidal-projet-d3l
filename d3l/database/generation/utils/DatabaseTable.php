@@ -35,6 +35,17 @@ class DatabaseTable {
         return $query;
     }
 
+    static function dropForeignKeyContraints(D3LDatabaseTable $table): string {
+        $query = "";
+
+        foreach ($table->columns as $column) {
+            if ($column->foreign_key == null) continue;
+            $query .= DatabaseColumn::dropForeignKeyConstraint($table->name, $column);
+        }
+
+        return $query;
+    }
+
     static function getTableByName(array $tables, string $name) {
         foreach ($tables as $table) {
             if ($table->name == $name) {

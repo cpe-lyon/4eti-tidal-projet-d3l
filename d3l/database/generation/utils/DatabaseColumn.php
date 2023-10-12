@@ -47,6 +47,14 @@ class DatabaseColumn {
         return $query;
     }
 
+    static function dropForeignKeyConstraint(string $table, D3LDatabaseColumn $column): string {
+        if ($column->foreign_key === null) return "";
+
+        $params = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $column->toArray());
+
+        return "\nALTER TABLE \"{$table}\" DROP CONSTRAINT \"{$table}_{$params['name']}_fkey\";\n";
+    }
+
     static function compareColumns(D3LDatabaseColumn $currentColumn, D3LDatabaseColumn $newColumn): bool {
         $currentParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $currentColumn->toArray());
         $newParams = array_merge(array_fill_keys(self::COLUMN_PARAMS, null), $newColumn->toArray());
