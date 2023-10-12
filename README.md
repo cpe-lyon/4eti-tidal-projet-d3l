@@ -156,6 +156,83 @@ En cas de route non trouvée, une exeception est levée dans le middleware `Rout
 
 Il est possible de modifier la page d'erreur 404 en modifiant le fichier `404.html` dans le dossier `templates`.
 
-## Simplification des appels à des API externes
 ## Migration de la base de données
 ## Gestion de la base de données simplifiée
+
+## Simplification des appels à des API externes
+
+### Classic API access
+
+Les méthodes classiques de requêtage d'API sont utilisables via `D3LApiService`.
+
+- `GetRequest(link, format)`
+
+| Type   | Documentation                              |
+|--------|--------------------------------------------|
+| Link   | Lien de l'API après utilisation du Builder |
+| Format | Format de retour de l'api (Raw, XML, JSON) |
+
+- `GetPost(link, objet)`
+
+| Type   | Documentation                              |
+|--------|--------------------------------------------|
+| Link   | Lien de l'API après utilisation du Builder |
+| Object | Objet PHP |
+
+- `GetDelete(link, objet)`
+
+| Type   | Documentation                              |
+|--------|--------------------------------------------|
+| Link   | Lien de l'API après utilisation du Builder |
+| Object | Objet PHP |
+
+- `GetPut(link, objet)`
+
+| Type   | Documentation                              |
+|--------|--------------------------------------------|
+| Link   | Lien de l'API après utilisation du Builder |
+| Object | Objet PHP |
+
+### JWT API access
+
+Les méthodes de requêtage d'API utilisant une authentication JWT sont utilisables via `D3LApiServiceJWTBearer`.
+
+- `SGet(link, format, login, password, authenticationLink)`
+
+| Type                | Documentation                              |
+|---------------------|--------------------------------------------|
+| Link                | Lien de l'API après utilisation du Builder |
+| Format              | Format de retour de l'api (Raw, XML, JSON) |
+| Login               | Login API                                  |
+| Password            | Password API                               |
+| Authentication Link | Lien d'authentication pour le jeton        |
+
+- `SPost(link, object, login, password, authenticationLink)`
+
+| Type                | Documentation                              |
+|---------------------|--------------------------------------------|
+| Link                | Lien de l'API après utilisation du Builder |
+| Objet               | Objet PHP                                  |
+| Login               | Login API                                  |
+| Password            | Password API                               |
+| Authentication Link | Lien d'authentication pour le jeton        |
+
+- `SDelete(link, object, login, password, authenticationLink)`
+
+| Type                | Documentation                              |
+|---------------------|--------------------------------------------|
+| Link                | Lien de l'API après utilisation du Builder |
+| Objet               | Objet PHP                                  |
+| Login               | Login API                                  |
+| Password            | Password API                               |
+| Authentication Link | Lien d'authentication pour le jeton        |
+
+- `SPut(link, object, login, password, authenticationLink)`
+
+| Type                | Documentation                              |
+|---------------------|--------------------------------------------|
+| Link                | Lien de l'API après utilisation du Builder |
+| Objet               | Objet PHP                                  |
+| Login               | Login API                                  |
+| Password            | Password API                               |
+| Authentication Link | Lien d'authentication pour le jeton        |
