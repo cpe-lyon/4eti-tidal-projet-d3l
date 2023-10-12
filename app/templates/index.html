@@ -10,16 +10,22 @@
         <h1>{{title}}</h1>
     </header>
 
+    <div class="navbar">
+        <a href="http://localhost/">Accueil</a>
+        <a href="http://localhost/documentation">Documentation</a>
+        <a href="https://github.com/cpe-lyon/4eti-tidal-projet-d3l/archive/refs/heads/main.zip">Téléchargement</a>
+        <a href="https://github.com/cpe-lyon/4eti-tidal-projet-d3l">GitHub</a>
+    </div>
+
     <div class="container">
         <h2>Présentation de {{title}}</h2>
         <p>Bienvenue sur la page de présentation de {{title}}, un framework PHP flexible et puissant conçu pour vous aider à développer des applications web de haute qualité.</p>
 
         <h2>Fonctionnalités principales :</h2>
         <ul>
-            <li>Gestion des middlewares pour la personnalisation du traitement des requêtes.</li>
-            <li>Système de routage flexible pour diriger les requêtes vers les contrôleurs appropriés.</li>
-            <li>Middleware de gestion des exceptions pour un meilleur contrôle des erreurs.</li>
-            <li>Extensions disponibles pour l'authentification, la sécurité, la validation, etc.</li>
+            {% for feature in features %}
+                <li>{{feature}}</li>
+            {% endfor %}
         </ul>
 
         <h2>Commencez à utiliser {{title}} :</h2>
