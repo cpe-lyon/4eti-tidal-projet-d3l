@@ -50,7 +50,6 @@ class UserController extends \D3LController {
             'root',
             'léon'
         );
-        echo "test";
         $ret = $this->save($user);
         echo "saved : " . $ret;
     }
