@@ -76,6 +76,7 @@ class DatabaseMigration {
             if ($currentTable == null) {
                 echo "-> Adding table {$updatedTable->name}\n";
                 $script .= DatabaseTable::create($updatedTable);
+                $script .= DatabaseTable::generateForeignKeyConstraints($updatedTable);
             }
         }
 
@@ -90,6 +91,7 @@ class DatabaseMigration {
 
             if ($updatedTable == null) {
                 echo "-> Dropping table {$currentTable->name}\n";
+                $script .= DatabaseTable::dropForeignKeyContraints($currentTable);
                 $script .= DatabaseTable::drop($currentTable->name);
             }
         }
