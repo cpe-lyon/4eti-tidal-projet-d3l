@@ -4,7 +4,7 @@ require_once './d3l/database/DatabaseContext.php';
 
 abstract class D3LController {
 
-    var $tableName;
+    public $tableName;
     var $db;
 
     function __construct(string $profile) {
@@ -12,18 +12,22 @@ abstract class D3LController {
         $this->db->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
 
-    protected function getAll() {
+    protected function getAll($formatting_func="json_encode"){
         $query = "SELECT * FROM " . $this->tableName;
         $stmt = $this->db->connection->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $formatting_func($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
-    protected function findById(int $id){
+    protected function findById(int $id, $formatting_func="json_encode"){
         $query = "SELECT * FROM " . $this->tableName . " WHERE id = " . $id;
         $stmt = $this->db->connection->prepare($query);
         $stmt->execute();
-        return $stmt->fetchAll()[0];
+        $ret = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if($formatting_func !== NULL){
+            return $formatting_func($ret[0]);
+        }
+        return $ret[0];
     }
 
     
@@ -35,7 +39,7 @@ abstract class D3LController {
         $values = implode(", ", $this->getValuesFormatted(array_values($data_arr)));
         $sql = "INSERT INTO {$this->tableName} ({$columns}) VALUES ({$values})";
         $stmt = $this->db->connection->prepare($sql);
-        echo $sql;
+        //echo $sql;
         return $stmt->execute();
     }
 
@@ -54,38 +58,39 @@ abstract class D3LController {
         return $param;
     }
 
-    /*
-    protected function update($primaryKeyValue, $data) {
+    protected function update($data) {
+        $arr_data = (array) $data;
+
+        $id = $arr_data['id'];
+        unset($arr_data['id']);
+        
         $setClause = [];
-        foreach ($data as $key => $value) {
-            $setClause[] = "{$key} = '{$value}'";
+        
+        foreach ($arr_data as $key => $value) {
+            $setClause[] = "{$key} = {$this->formatValues($value)}";
         }
         $setClause = implode(", ", $setClause);
 
-        $sql = "UPDATE {$this->table->name} SET {$setClause} WHERE {$this->primaryKey} = {$primaryKeyValue}";
+        $sql = "UPDATE {$this->tableName} SET {$setClause} WHERE id = {$id}";
 
-        // Exécutez la requête SQL ici
-
-        return $sql;
+        $stmt = $this->db->connection->prepare($sql);
+        return $stmt->execute();
     }
 
     protected function delete($primaryKeyValue) {
-        $sql = "DELETE FROM {$this->table->name} WHERE {$this->primaryKey} = {$primaryKeyValue}";
-
-        // Exécutez la requête SQL ici
-
-        return $sql;
+        $sql = "DELETE FROM {$this->tableName} WHERE id = {$primaryKeyValue}";
+        $stmt = $this->db->connection->prepare($sql);
+        return $stmt->execute();
     }
 
     protected function findByField($field, $value) {
-        $sql = "SELECT * FROM {$this->table->name} WHERE {$field} = '{$value}'";
-
-        // Exécutez la requête SQL ici
-
-        return $sql;
-    }*/
+        $sql = "SELECT * FROM {$this->tableName} WHERE {$field} = '{$value}'";
+        $stmt = $this->db->connection->prepare($sql);
+        return $stmt->execute();
+    }
 
     protected function sendRawQuery($query) {
-        return $query;
+        $stmt = $this->db->connection->prepare($query);
+        return $stmt->execute();
     }
 }

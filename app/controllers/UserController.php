@@ -20,19 +20,24 @@ class UserController extends \D3LController {
     #[Route('/getall', name: 'tes2', methods: ['GET'])]
     function getUsers() {
         header('Content-Type: application/json; charset=utf-8');
-        $fetched = $this->getAll();
-        $full = array();
-        foreach($fetched as $row){
-            array_push($full, [
-                "id" => $row["id"],
-                "lastname" => $row["lastname"],
-                "firstname" => $row["firstname"],
-                "email" => $row["email"],
-                "password" => $row["password"],
-                "comment" => $row["comment"]
-            ]);
-        }
-        echo json_encode($full);
+        echo $this->getAll();
+    }
+
+    #[Route('/update/{id<\d+>}', name: 'update', methods: ['GET'])]
+    function updateReq($id) {
+        header('Content-Type: application/json; charset=utf-8');
+        $this->tableName = '"user"';
+        $user = $this->findById($id['id'], NULL);
+        $user['firstname'] = 'TIBO';
+        $this->update($user);
+        echo $this->findById($id['id']);
+    }
+
+    #[Route('/delete/{id<\d+>}', name: 'delete', methods: ['GET'])]
+    function deleteReq($id) {
+        header('Content-Type: application/json; charset=utf-8');
+        $ret = $this->delete($id['id']);
+        echo json_encode(["deleted" => $ret]);
     }
 
     #[Route('/test_user', name: 'test', methods: ['GET'])]
