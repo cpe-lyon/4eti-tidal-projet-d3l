@@ -51,6 +51,7 @@ class ExceptionsMiddleware extends Middleware
     }
 }
 ```
+
 ## Moteur de templating
 
 - Étape 1 : Créez une instance du moteur de template
