@@ -4,6 +4,7 @@ class DatabaseFiles {
 
     const MIGRATION_DIR = "app/database/migrations/";
     const LOG_DIR = self::MIGRATION_DIR . "logs/";
+    const EXECUTION_LOG = self::LOG_DIR . "execution_log.json";
 
     static function clean() {
         echo "Cleaning migrations\n";
@@ -14,9 +15,9 @@ class DatabaseFiles {
             }
         }
 
-        $logFiles = glob(self::MIGRATION_DIR . '*');
+        $logFiles = glob(self::LOG_DIR . '*');
         foreach ($logFiles as $file) {
-            if (is_file($file)) {
+            if (is_file($file) && substr($file, -5) == ".json" && $file != self::EXECUTION_LOG) {
                 unlink($file);
             }
         }
@@ -98,8 +99,7 @@ class DatabaseFiles {
 
         foreach ($files as $file) {
             if ($file != "." && $file != "..") {
-                $id = intval(explode("-", $file)[0]);
-                if ($id == 1) {
+                if (strpos($file, "init") !== false) {
                     return true;
                 }
             }
