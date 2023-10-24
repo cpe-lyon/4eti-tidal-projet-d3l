@@ -13,8 +13,8 @@ case "$command" in
     "db:ip")
         docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "my-postgres-container"
         ;;
-    "db:reset")
-        docker exec my-php-container php "d3l/database/scripts/reset.php"
+    "db:init")
+        docker exec my-php-container php "d3l/database/scripts/init.php"
         ;;
     "db:migrate")
         if [ "$args" == "--create" ]; then
@@ -22,11 +22,11 @@ case "$command" in
             exit 0
         fi
         if [ "$args" == "--execute" ]; then
-            php "d3l/database/scripts/migrate.php"
+            php "d3l/database/scripts/execute.php"
             exit 0
         fi
         php "d3l/database/scripts/create.php"
-        docker exec my-php-container php "d3l/database/scripts/migrate.php"
+        docker exec my-php-container php "d3l/database/scripts/execute.php"
         ;;
 
 # command not found

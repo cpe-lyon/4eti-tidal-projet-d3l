@@ -1,12 +1,14 @@
 # D3l
 
 D3l est un framework léger qui permet de faire des sites en PHP. Il dispose des fonctionnalités suivantes:
+
 - Middleware
 - Moteur de templating
 - Routage automatique
 - Migration de la base de données
 - Gestion de la base de données simplifiée
 - Simplification des appels à des API externes
+
 ## Middleware
 
 Les middlewares sont des fonctions qui sont exécutées avant ou après une requête.
@@ -51,6 +53,7 @@ class ExceptionsMiddleware extends Middleware
     }
 }
 ```
+
 ## Moteur de templating
 
 - Étape 1 : Créez une instance du moteur de template
@@ -132,6 +135,7 @@ Créez des fichiers HTML avec les placeholders {{ ... }} pour les données que v
 </body>
 </html>
 ```
+
 ## Routage automatique
 
 Le routage dynamique se fait par le biais d'annotations / attributs. Par exemple:
@@ -156,8 +160,40 @@ En cas de route non trouvée, une exeception est levée dans le middleware `Rout
 
 Il est possible de modifier la page d'erreur 404 en modifiant le fichier `404.html` dans le dossier `templates`.
 
-## Migration de la base de données
-## Gestion de la base de données simplifiée
+## Base de données
+
+### Initialisation
+
+La configuration docker par défaut contient un container postgresql préconfiguré.
+
+Un fichier model avec sa classe correspond à une table de la base de données. Une variable correspond à une colonne.
+
+Une fois les modèles créés, il suffit d'exécuter la commande cette commande à la racine du projet :
+
+```bash
+    bash run.sh db:init
+```
+
+### Migration
+
+Durant le déroulement du projet, il est possible que la base de données évolue. Pour cela, il faut créer une migration.
+
+Dans un premier temps, modifier les fichiers models correspondants. Ensuite, exécuter la commande suivante :
+
+```bash
+    bash run.sh db:migration
+```
+
+Cette commande crée la migration et l'exécute directement dasn la base.
+
+Si vous ne voulez pas faire ces 2 actions en une fois, vous pouvez utiliser les arguments `--create` et `--execute`.
+
+La création d'une migration crée 2 fichiers :
+
+- Le premier est un fichier SQL qui contient les requêtes à exécuter.
+- le second est un fichier JSON qui contient les informations de la migration.
+
+Si vous créez une migration sans l'exécuter, vous pouvez modifier le fichier SQL mais cela implique de modifier le fichier JSON en conséquence. Cette manipulation n'est pas recommandée car une erreur peut être irréversible.
 
 ## Simplification des appels à des API externes
 

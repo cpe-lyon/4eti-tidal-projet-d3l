@@ -40,10 +40,10 @@ class DatabaseMigration {
             echo "No migrations to execute\n";
             return;
         }
+        $dbContext = new DatabaseContext("profile");
 
         foreach ($files as $file) {
             $query = DatabaseFiles::loadMigration($file);
-            $dbContext = new DatabaseContext("profile");
             $dbContext->executeQuery($query);
             DatabaseMigrationLogs::setExecuted($file);
 

@@ -40,6 +40,7 @@ class DatabaseColumn {
     static function generateWithAlterTable(string $table, D3LDatabaseColumn $column): string {
         $query = "\nALTER TABLE \"{$table}\" ADD COLUMN";
         $query .= DatabaseColumn::generate($column);
+        $query = substr($query, 0, -2) . ";\n";
         return $query;
     }
 
