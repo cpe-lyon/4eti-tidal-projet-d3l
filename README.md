@@ -9,6 +9,20 @@ D3l est un framework léger qui permet de faire des sites en PHP. Il dispose des
 - Gestion de la base de données simplifiée
 - Simplification des appels à des API externes
 
+## Lancer le projet
+
+Le projet de test est disponible et fonctionne via 2 commande:
+
+Tout d'abord, lancer les docker: 
+```
+docker compose -f docker-compose.yml up #dans le dossier du projet
+```
+
+Puis, creer la base de donnée: 
+```
+bash run.sh db:init
+```
+
 ## Middleware
 
 Les middlewares sont des fonctions qui sont exécutées avant ou après une requête.

@@ -16,8 +16,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 	firstname text NOT NULL,
 	lastname text NOT NULL,
 	email text NOT NULL,
-	password text NOT NULL,
-	comment text NOT NULL
+	password text NOT NULL
 );
 
 ALTER TABLE "country" ADD CONSTRAINT "country_fk_id_user_president" FOREIGN KEY ("fk_id_user_president") REFERENCES "user" ("id");
