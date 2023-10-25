@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./app/style/stylesheet.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    <header>
+        <h1>{{title}}</h1>
+        <p class="apiData">{{weather}}</p>
+    </header>
+
+    <div class="navbar">
+        <a href="http://localhost/">Accueil</a>
+        <a href="http://localhost/documentation">Documentation</a>
+        <a href="https://github.com/cpe-lyon/4eti-tidal-projet-d3l/archive/refs/heads/main.zip">Téléchargement</a>
+        <a href="https://github.com/cpe-lyon/4eti-tidal-projet-d3l">GitHub</a>
+    </div>
+
+    <div class="container">
+        <form action="/add" method="post">
+          <ul>
+            <li>
+              <label for="prenom">Prenom:</label>
+              <input type="text" id="prenom" name="prenom" />
+            </li>
+            <li>
+              <label for="nom">Nom:</label>
+              <input type="text" id="nom" name="nom" />
+            </li>
+            <li>
+              <label for="email">email:</label>
+              <input type="email" id="email" name="email"></input>
+            </li>
+            <li>
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password" />
+            </li>
+          </ul>
+          <button type="submit">Envoyer le message</button>
+        </form>
+    </div>
+</body>
+</html>
