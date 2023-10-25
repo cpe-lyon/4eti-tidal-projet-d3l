@@ -45,22 +45,22 @@ class DatabaseInit {
 
         foreach ($this->tables as $table) {
             $script .= DatabaseTable::generateForeignKeyConstraints($table) . "\n";
-            echo "-> Generated foreign key cosntraints for table {$table->name}\n";
+            echo "-> Generated foreign key constraints for table {$table->name}\n";
         }
 
         return $script;
     }
 
     private function saveFiles(string $script): string {
-        $fileId = DatabaseFiles::getNextMigrationId();
-        $baseFileName = time() . "-" . self::INIT_FILE_BASE;
+        $time = time();
+        $baseFileName = $time . "-" . self::INIT_FILE_BASE;
         $sqlFileName = $baseFileName . ".sql";
         $logFileName = $baseFileName . ".json";
 
-        echo "Saving init script\n";
+        echo "Saving init {$time} script\n";
         DatabaseFiles::generateMigration($sqlFileName, $script);
 
-        echo "Saving init log\n";
+        echo "Saving init {$time} log\n";
         DatabaseMigrationLogs::save($logFileName, $this->tables);
         return $baseFileName;
     }

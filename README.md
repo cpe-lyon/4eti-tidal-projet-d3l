@@ -168,10 +168,10 @@ La configuration docker par défaut contient un container postgresql préconfigu
 
 Un fichier model avec sa classe correspond à une table de la base de données. Une variable correspond à une colonne.
 
-Une fois les modèles créés, il suffit d'exécuter la commande cette commande à la racine du projet :
+Une fois les modèles créés, il suffit d'exécuter cette commande à la racine du projet :
 
 ```bash
-    bash run.sh db:init
+bash run.sh db:init
 ```
 
 ### Migration
@@ -181,16 +181,16 @@ Durant le déroulement du projet, il est possible que la base de données évolu
 Dans un premier temps, modifier les fichiers models correspondants. Ensuite, exécuter la commande suivante :
 
 ```bash
-    bash run.sh db:migration
+bash run.sh db:migrate
 ```
 
-Cette commande crée la migration et l'exécute directement dasn la base.
+Cette commande crée la migration et l'exécute directement dans la base.
 
 Si vous ne voulez pas faire ces 2 actions en une fois, vous pouvez utiliser les arguments `--create` et `--execute`.
 
 La création d'une migration crée 2 fichiers :
 
-- Le premier est un fichier SQL qui contient les requêtes à exécuter.
+- le premier est un fichier SQL qui contient les requêtes à exécuter.
 - le second est un fichier JSON qui contient les informations de la migration.
 
 Si vous créez une migration sans l'exécuter, vous pouvez modifier le fichier SQL mais cela implique de modifier le fichier JSON en conséquence. Cette manipulation n'est pas recommandée car une erreur peut être irréversible.
