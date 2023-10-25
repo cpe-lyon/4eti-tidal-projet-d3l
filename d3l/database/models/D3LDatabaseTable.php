@@ -2,19 +2,24 @@
 
 include_once "d3l/database/models/D3LDatabaseColumn.php";
 
-abstract class D3LDatabaseTable {
+$files = glob('app/database/models/*.php');
+
+foreach ($files as $file) {
+    require_once($file);   
+}
+
+class D3LDatabaseTable {
 
     var string $name = "";
     var array $columns = array();
 
     public function parseClass($refl_clas){
         $user_arr = [];
+
         foreach($refl_clas->getConstructor()->getParameters() as $param){
             $type = $param->getType()->getName();
             $key = $param->name;
             $col = new D3LDatabaseColumn();
-
-
 
             if($type === 'string'){
                 $col->textField($key);
@@ -24,6 +29,25 @@ abstract class D3LDatabaseTable {
 
             if($key === 'id'){
                 $col->primaryKey();
+            }
+
+            if(str_contains($key, "fk")){
+                $vals = explode("_", $key);
+
+                $foreignColumn = $vals[1];
+                $foreignTable = $vals[2];
+
+                $table = new D3LDatabaseTable();
+                $table->name = $foreignTable;
+
+                $columnF = new D3LDatabaseColumn();
+                $ref_foreign = new \ReflectionClass($type);
+                $type = $ref_foreign->getConstructor()->getParameters()[0]->getType()->getName();
+                $columnF->type = $type;
+                $columnF->length = $type === 'int' || $type === "integer" ? NULL : 20;
+                $columnF->nullable = false;
+                $columnF->name = $ref_foreign->getConstructor()->getParameters()[0]->getName();
+                $col->foreignKey($key, $table, $columnF);
             }
 
             array_push($user_arr, $col);

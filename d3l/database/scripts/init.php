@@ -8,7 +8,7 @@ include_once 'd3l/database/DatabaseContext.php';
 $dbInit = new DatabaseInit();
 
 DatabaseFiles::clean();
-$dbInit->generate();
-$dbInit->execute();
+$file = $dbInit->generate();
+$dbInit->execute($file);
 
 echo "Init script executed successfully\n";

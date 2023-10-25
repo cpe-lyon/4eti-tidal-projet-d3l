@@ -40,10 +40,10 @@ class DatabaseMigration {
             echo "No migrations to execute\n";
             return;
         }
+        $dbContext = new DatabaseContext("profile");
 
         foreach ($files as $file) {
             $query = DatabaseFiles::loadMigration($file);
-            $dbContext = new DatabaseContext("profile");
             $dbContext->executeQuery($query);
             DatabaseMigrationLogs::setExecuted($file);
 
@@ -139,8 +139,9 @@ class DatabaseMigration {
 
     private function saveFiles(string $script) {
         $fileId = DatabaseFiles::getNextMigrationId();
-        $sqlFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".sql";
-        $logFileName = $fileId . "-" . self::MIGRATION_FILE_BASE . ".json";
+        $baseFileName = time() . "-" . self::MIGRATION_FILE_BASE;
+        $sqlFileName = $baseFileName . ".sql";
+        $logFileName = $baseFileName . ".json";
 
         echo "Saving migration {$fileId} script\n";
         DatabaseFiles::generateMigration($sqlFileName, $script);

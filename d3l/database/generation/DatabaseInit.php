@@ -14,17 +14,16 @@ class DatabaseInit {
         $this->tables = DatabaseFiles::loadTables();
     }
 
-    function generate() {
+    function generate(): string {
         $script = $this->generateScript();
-        $this->saveFiles($script);
+        return $this->saveFiles($script);
     }
 
-    function execute() {
-        $fileBase = "1-" . self::INIT_FILE_BASE;
-        $query = DatabaseFiles::loadMigration($fileBase);
+    function execute(string $fileName) {
+        $query = DatabaseFiles::loadMigration($fileName);
         $dbContext = new DatabaseContext("profile");
         $dbContext->executeQuery($query);
-        DatabaseMigrationLogs::setExecuted($fileBase);
+        DatabaseMigrationLogs::setExecuted($fileName);
     }
 
     private function generateScript(): string {
@@ -52,15 +51,17 @@ class DatabaseInit {
         return $script;
     }
 
-    private function saveFiles(string $script) {
+    private function saveFiles(string $script): string {
         $fileId = DatabaseFiles::getNextMigrationId();
-        $sqlFileName = $fileId . "-" . self::INIT_FILE_BASE . ".sql";
-        $logFileName = $fileId . "-" . self::INIT_FILE_BASE . ".json";
+        $baseFileName = time() . "-" . self::INIT_FILE_BASE;
+        $sqlFileName = $baseFileName . ".sql";
+        $logFileName = $baseFileName . ".json";
 
         echo "Saving init script\n";
         DatabaseFiles::generateMigration($sqlFileName, $script);
 
         echo "Saving init log\n";
         DatabaseMigrationLogs::save($logFileName, $this->tables);
+        return $baseFileName;
     }
 }
