@@ -18,7 +18,6 @@ class D3LApiService {
         ));
         $response = curl_exec($curl);
         curl_close($curl);
-        return $response;
         if($format == "json"){
             return json_decode($response, true);
         }if($format == "xml"){

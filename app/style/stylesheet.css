@@ -47,7 +47,15 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.apiData{
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-right: 10px;
+}
+
 p {
     font-size: 18px;
     line-height: 1.6;
 }
+
