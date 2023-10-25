@@ -155,6 +155,7 @@ public function id($param){
 On peut également donner des `regex` pour donner de quel type doit et va être le paramètre. Dans notre exemple, la valeur doit être un entier, sinon on n'appelle pas la fonction et dans le cas où celle-ci est appelée, alors `$param['id']` sera de type entier.
 
 *Note: Pour l'instant seuls 3 types sont supportés; `integer`,`float`,`string`.*
+*Note 2: Les données posts ne sont pas gérer, c'est à la liberté de l'utilisateur.*
 
 En cas de route non trouvée, une exeception est levée dans le middleware `RoutingMiddleware` et est attrapée par le middleware `ExceptionsMiddleware` qui renvoie une erreur 404.
 
@@ -194,6 +195,27 @@ La création d'une migration crée 2 fichiers :
 - le second est un fichier JSON qui contient les informations de la migration.
 
 Si vous créez une migration sans l'exécuter, vous pouvez modifier le fichier SQL mais cela implique de modifier le fichier JSON en conséquence. Cette manipulation n'est pas recommandée car une erreur peut être irréversible.
+
+### L'ORM
+
+Notre framework inclut un ORM minimal, celui-ci permet de faire des requêtes très basiques sans faire de SQL. Pour cela, le controleur doit étendre le `D3LController` et préciser le nom de la table liée. De cette manière les `update`, `delete` et les `save` automatiquement.
+
+*Note: les jointures et autres requêtes par champs n'ont pas été créées mais peuvent être le sujet d'une amélioration future.*
+
+#### Exemple:
+
+```php
+class UserController extends \D3LController {
+    ...
+
+    #[Route('/delete/{id<\d+>}', name: 'delete', methods: ['GET'])]
+    function deleteReq($id) {
+        header('Content-Type: application/json; charset=utf-8');
+        $ret = $this->delete($id['id']);
+        echo json_encode(["deleted" => $ret]);
+    }
+```
+Dans notre cas on va récupérer l'id via le module de routing vu précédemment et supprimer l'utilisateur dont l'id vaut la valeur en paramètre.
 
 ## Simplification des appels à des API externes
 
