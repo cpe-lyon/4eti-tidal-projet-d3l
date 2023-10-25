@@ -138,15 +138,15 @@ class DatabaseMigration {
     }
 
     private function saveFiles(string $script) {
-        $fileId = DatabaseFiles::getNextMigrationId();
-        $baseFileName = time() . "-" . self::MIGRATION_FILE_BASE;
+        $time = time();
+        $baseFileName = $time . "-" . self::MIGRATION_FILE_BASE;
         $sqlFileName = $baseFileName . ".sql";
         $logFileName = $baseFileName . ".json";
 
-        echo "Saving migration {$fileId} script\n";
+        echo "Saving migration {$time} script\n";
         DatabaseFiles::generateMigration($sqlFileName, $script);
 
-        echo "Saving migration {$fileId} log\n";
+        echo "Saving migration {$time} log\n";
         DatabaseMigrationLogs::save($logFileName, $this->updatedTables);
     }
 }
